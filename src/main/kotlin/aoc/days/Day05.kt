@@ -3,6 +3,7 @@ package aoc.days
 import aoc.Day
 import java.util.*
 
+private const val NR_OF_STACKS = 9
 private val CARGO_COMMAND = "move (\\d+) from (\\d+) to (\\d+)".toRegex()
 
 class Day05 : Day() {
@@ -20,9 +21,7 @@ class Day05 : Day() {
                 }
             }
 
-        return stacks
-            .map { it.first.toString() }
-            .reduce { acc, crate -> acc + crate }
+        return stacks.top()
     }
 
     override fun solvePart2(input: List<String>): Any {
@@ -39,16 +38,18 @@ class Day05 : Day() {
                 }
             }
 
-        return stacks
-            .map { it.first.toString() }
-            .reduce { acc, crate -> acc + crate }
+        return stacks.top()
     }
 
     private fun createStacks(input: List<String>): MutableList<ArrayDeque<Char>> {
-        val stacks = mutableListOf<ArrayDeque<Char>>()
-        for (i in 1..9) {
-            stacks.add(ArrayDeque())
-        }
+        val stacks = (1..NR_OF_STACKS)
+            .map { ArrayDeque<Char>() }
+            .fold(mutableListOf<ArrayDeque<Char>>()) { acc, stack ->
+                run {
+                    acc.add(stack)
+                    return@fold acc
+                }
+            }
 
         input
             .asSequence()
@@ -56,15 +57,15 @@ class Day05 : Day() {
             .toList()
             .reversed()
             .map { toCrateLine(it) }
-            .forEach { crates ->
-                crates.forEachIndexed { stackNr, crate -> if (crate.isLetter()) stacks[stackNr].push(crate) }
+            .forEach { crateLine ->
+                crateLine.forEachIndexed { stackNr, crate -> if (crate.isLetter()) stacks[stackNr].push(crate) }
             }
 
         return stacks
     }
 
     private fun toCrateLine(rawLine: String): List<Char> {
-        return (0..8)
+        return (0 until NR_OF_STACKS)
             .map { rawLine[it * 4 + 1] }
             .toList()
     }
@@ -76,4 +77,7 @@ class Day05 : Day() {
                 Triple(cargoAmount.toInt(), stackFrom.toInt() - 1, stackTo.toInt() - 1)
             }
 
+    private fun List<ArrayDeque<Char>>.top(): String =
+        map { it.first.toString() }
+            .reduce { acc, crate -> acc + crate }
 }
