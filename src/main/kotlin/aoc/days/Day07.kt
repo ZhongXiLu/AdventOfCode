@@ -2,25 +2,28 @@ package aoc.days
 
 import aoc.Day
 
+private const val TOTAL_SPACE = 70000000
+private const val REQUIRED_SPACE_FOR_UPDATE = 30000000
+
 class Day07 : Day() {
 
     override fun solvePart1(input: List<String>): Any {
-        val root = buildFileSystem(input)
-
-        return root
-            .getDirsWithMaxSize(100000)
-            .sumOf { it.calculateSize() }
+        return buildFileSystem(input)
+            .getAllDirs()
+            .map { it.calculateSize() }
+            .filter { it <= 100000 }
+            .sum()
     }
 
     override fun solvePart2(input: List<String>): Any {
-        val root = buildFileSystem(input)
+        val fileSystem = buildFileSystem(input)
+        val requiredSpace = REQUIRED_SPACE_FOR_UPDATE - (TOTAL_SPACE - fileSystem.calculateSize())
 
-        val neededSpace = 30000000 - (70000000 - root.calculateSize())
-        return root
+        return fileSystem
             .getAllDirs()
-            .sortedBy { it.calculateSize() }
-            .first { it.calculateSize() >= neededSpace }
-            .calculateSize()
+            .map { it.calculateSize() }
+            .sorted()
+            .first { it >= requiredSpace }
     }
 
     private fun buildFileSystem(input: List<String>): File {
@@ -38,17 +41,18 @@ class Day07 : Day() {
                     "cd /" -> currentDir = root
                     "cd .." -> currentDir = currentDir.parent ?: root
                     "ls" -> {
-                        it.drop(1)
+                        it
+                            .drop(1)
                             .map { file -> file.split(" ") }
                             .dropLast(1)
-                            .forEach { (filePrefix, filename) ->
-                                currentDir.addFile(
-                                    File(filename, currentDir, if (filePrefix == "dir") -1 else filePrefix.toInt())
-                                )
+                            .map { (filePrefix, filename) ->
+                                File(filename, currentDir, if (filePrefix == "dir") 0 else filePrefix.toInt())
                             }
+                            .forEach { file -> currentDir.addFile(file) }
                     }
 
-                    else -> currentDir = currentDir.changeDir(it[0].substringAfter("cd "))
+                    // "cd dir"
+                    else -> currentDir = currentDir.getDir(it[0].substringAfter("cd "))
                 }
             }
 
@@ -60,12 +64,12 @@ class Day07 : Day() {
 private data class File(
     val name: String,
     val parent: File? = null,
-    val size: Int = -1,
+    val size: Int = 0,
     val files: MutableList<File> = mutableListOf()
 ) {
     fun isDirectory() = files.isNotEmpty()
 
-    fun changeDir(dir: String): File {
+    fun getDir(dir: String): File {
         return files.first { it.name == dir }
     }
 
@@ -74,35 +78,17 @@ private data class File(
     }
 
     fun calculateSize(): Int {
-        return if (size == -1) {
-            files.sumOf { it.calculateSize() }
-        } else {
-            size
-        }
-    }
-
-    fun getDirsWithMaxSize(maxSize: Int): List<File> {
-        val dirs = files
-            .filter { it.isDirectory() }
-            .map { it.getDirsWithMaxSize(maxSize) }
-            .flatten()
-            .toMutableList()
-
-        if (calculateSize() <= maxSize) {
-            dirs.add(this)
-        }
-
-        return dirs
+        return if (isDirectory()) files.sumOf { it.calculateSize() } else size
     }
 
     fun getAllDirs(): List<File> {
-        val dirs = files
+        return files
+            .asSequence()
             .filter { it.isDirectory() }
             .map { it.getAllDirs() }
             .flatten()
             .toMutableList()
-
-        dirs.add(this)
-        return dirs
+            .plus(this)
+            .toList()
     }
 }
