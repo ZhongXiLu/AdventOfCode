@@ -68,7 +68,6 @@ class Day08 : Day() {
     }
 
     private fun List<List<Int>>.getScenicScore(row: Int, column: Int): Int {
-        // TODO: part 2
         return this.getScenicScoreToTop(row, column)
             .times(this.getScenicScoreToBottom(row, column))
             .times(this.getScenicScoreToLeft(row, column))
@@ -76,27 +75,31 @@ class Day08 : Day() {
     }
 
     private fun List<List<Int>>.getScenicScoreToTop(row: Int, column: Int): Int {
-        return (row - 1 downTo 0)
+        val trees = row - 1 downTo 0
+        val treesInSight = trees
             .takeWhile { this[it][column] < this[row][column] }
-            .count()
+        return treesInSight.count().plus(if (treesInSight.size == trees.count()) 0 else 1)
     }
 
     private fun List<List<Int>>.getScenicScoreToBottom(row: Int, column: Int): Int {
-        return (row + 1 until this.size)
+        val trees = row + 1 until this.size
+        val treesInSight = trees
             .takeWhile { this[it][column] < this[row][column] }
-            .count()
+        return treesInSight.count().plus(if (treesInSight.size == trees.count()) 0 else 1)
     }
 
     private fun List<List<Int>>.getScenicScoreToLeft(row: Int, column: Int): Int {
-        return (column - 1 downTo 0)
+        val trees = column - 1 downTo 0
+        val treesInSight = trees
             .takeWhile { this[row][it] < this[row][column] }
-            .count()
+        return treesInSight.count().plus(if (treesInSight.size == trees.count()) 0 else 1)
     }
 
     private fun List<List<Int>>.getScenicScoreToRight(row: Int, column: Int): Int {
-        return (column + 1 until this.first().size)
+        val trees = column + 1 until this.first().size
+        val treesInSight = trees
             .takeWhile { this[row][it] < this[row][column] }
-            .count()
+        return treesInSight.count().plus(if (treesInSight.size == trees.count()) 0 else 1)
     }
 
 }
