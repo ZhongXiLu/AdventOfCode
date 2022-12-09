@@ -12,51 +12,48 @@ class Day09 : Day() {
             .map { it.split(" ") }
             .forEach { (direction, steps) -> bridge.moveHead(direction, steps.toInt()) }
 
-        return bridge.tailEndPositions.size
+        return bridge.ropeEndPositions.size
     }
 
     override fun solvePart2(input: List<String>): Any {
         val bridge = Bridge()
-        repeat(8) { bridge.tails.add(Pair(0, 0)) }
+        repeat(8) { bridge.rope.add(Pair(0, 0)) }
 
         input
             .map { it.split(" ") }
             .forEach { (direction, steps) -> bridge.moveHead(direction, steps.toInt()) }
 
-        return bridge.tailEndPositions.size
+        return bridge.ropeEndPositions.size
     }
 
 }
 
 private class Bridge {
-    var head = Pair(0, 0)
-    var tails = mutableListOf(Pair(0, 0))
-    var tailEndPositions = mutableSetOf(tails.last())
+    var rope = mutableListOf(Pair(0, 0), Pair(0, 0))
+    var ropeEndPositions = mutableSetOf(rope.last())
 
     fun moveHead(direction: String, steps: Int) {
         repeat(steps) {
-            moveHeadOneStep(direction)
-            tails[0] = adjustTailTo(tails[0], head)
+            moveHead(direction)
 
-            // Move other tail parts
-            (1 until tails.size)
-                .forEach { tails[it] = adjustTailTo(tails[it], tails[it - 1]) }
+            (1 until rope.size)
+                .forEach { rope[it] = moveTail(rope[it], rope[it - 1]) }
 
-            tailEndPositions.add(tails.last())
+            ropeEndPositions.add(rope.last())
         }
     }
 
-    private fun moveHeadOneStep(direction: String) {
-        head = when (direction) {
-            "R" -> Pair(head.first, head.second + 1)
-            "D" -> Pair(head.first - 1, head.second)
-            "L" -> Pair(head.first, head.second - 1)
-            "U" -> Pair(head.first + 1, head.second)
+    private fun moveHead(direction: String) {
+        rope[0] = when (direction) {
+            "R" -> Pair(rope[0].first, rope[0].second + 1)
+            "D" -> Pair(rope[0].first - 1, rope[0].second)
+            "L" -> Pair(rope[0].first, rope[0].second - 1)
+            "U" -> Pair(rope[0].first + 1, rope[0].second)
             else -> throw IllegalArgumentException("Unknown direction $direction")
         }
     }
 
-    private fun adjustTailTo(tail: Pair<Int, Int>, head: Pair<Int, Int>): Pair<Int, Int> {
+    private fun moveTail(tail: Pair<Int, Int>, head: Pair<Int, Int>): Pair<Int, Int> {
         if (tailNotTouchingHead(tail, head)) {
             return if (tail.first == head.first) {
                 // Same row
