@@ -13,12 +13,13 @@ class DayRunner {
         if (dayClass != null) {
             runDay(dayNr, dayClass)
         } else {
-            throw Exception("Cannot find class for day $dayNr")
+            throw IllegalArgumentException("Cannot find class for day $dayNr")
         }
     }
 
     fun runAll() {
         reflections.getSubTypesOf(Day::class.java)
+            .sortedBy { it.simpleName }
             .forEach {
                 val dayNr = it.simpleName.replace("Day", "").trimStart('0')
                 runDay(dayNr, it)
@@ -36,7 +37,7 @@ class DayRunner {
 
             printSolutions(dayNr, solutionPart1, solutionPart2)
         } else {
-            throw Exception("Cannot find input file for day $dayNr")
+            throw IllegalArgumentException("Cannot find input file for day $dayNr")
         }
     }
 
