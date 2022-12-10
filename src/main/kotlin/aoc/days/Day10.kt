@@ -8,8 +8,8 @@ class Day10 : Day() {
         val cpu = CPU()
 
         input
-            .map { cpu.parseInstruction(it) }
-            .forEach { cpu.runInstruction(it) }
+            .map(cpu::parseInstruction)
+            .forEach(cpu::runInstruction)
 
         return cpu.signalStrengths.sum()
     }
@@ -18,8 +18,8 @@ class Day10 : Day() {
         val cpu = CPU()
 
         input
-            .map { cpu.parseInstruction(it) }
-            .forEach { cpu.runInstruction(it) }
+            .map(cpu::parseInstruction)
+            .forEach(cpu::runInstruction)
 
         return "\n" + cpu.crt
             .chunked(40)
@@ -36,7 +36,7 @@ private class CPU {
     val crt = mutableListOf<String>()
 
     private fun tick() {
-        if ((cycle % 40) in (register - 1..register + 1)) crt.add("#") else crt.add(".")
+        if ((cycle % 40) in (IntRange(register - 1, register + 1))) crt.add("#") else crt.add(".")
 
         cycle++
 
