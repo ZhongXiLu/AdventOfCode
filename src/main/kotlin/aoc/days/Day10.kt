@@ -15,7 +15,15 @@ class Day10 : Day() {
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return ""
+        val cpu = CPU()
+
+        input
+            .map { cpu.parseInstruction(it) }
+            .forEach { cpu.runInstruction(it) }
+
+        return "\n" + cpu.crt
+            .chunked(40)
+            .joinToString("\n") { it.joinToString("") }
     }
 
 }
@@ -25,9 +33,13 @@ private class CPU {
     private var cycle = 0
     private var register = 1
     val signalStrengths = mutableListOf<Int>()
+    val crt = mutableListOf<String>()
 
     private fun tick() {
+        if ((cycle % 40) in (register - 1..register + 1)) crt.add("#") else crt.add(".")
+
         cycle++
+
         if ((cycle - 20) % 40 == 0) {
             signalStrengths.add(cycle * register)
         }
@@ -37,8 +49,7 @@ private class CPU {
         when {
             line.startsWith("noop") -> return { tick() }
             line.startsWith("addx ") -> return {
-                tick()
-                tick()
+                repeat(2) { tick() }
                 register += line.substringAfter(" ").toInt()
             }
 
