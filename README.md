@@ -14,5 +14,6 @@
 | 08  | [Treetop Tree House](https://adventofcode.com/2022/day/8)      |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day08.kt) |
 | 09  | [Rope Bridge](https://adventofcode.com/2022/day/9)             |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day09.kt) |
 | 10  | [Cathode-Ray Tube](https://adventofcode.com/2022/day/10)       |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day10.kt) |
-| 11  | [Monkey in the Middle](https://adventofcode.com/2022/day/11)   |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day11.kt) |
+| 11  | [Monkey in the Middle](https://adventofcode.com/2022/day/11)   |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day11.kt) |
 
+*with some hints from Reddit 😇
