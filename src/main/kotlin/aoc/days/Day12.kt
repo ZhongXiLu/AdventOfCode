@@ -7,15 +7,30 @@ class Day12 : Day() {
     override fun solvePart1(input: List<String>): Any {
         val hill = input
             .map { it.toCharArray() }
-        var startingPosition = Pair(0, 0)
+        val startingPosition = findStartingPositions(hill, 'S').first()
 
-        hill
+        return stepsToEnd(hill, startingPosition)
+    }
+
+    override fun solvePart2(input: List<String>): Any {
+        val hill = input
+            .map { it.toCharArray() }
+        return findStartingPositions(hill, 'a')
+            .minOf { startingPosition -> stepsToEnd(hill, startingPosition) }
+    }
+
+    private fun findStartingPositions(hill: List<CharArray>, startingPositionSymbol: Char): List<Pair<Int, Int>> {
+        return hill
             .indices
-            .forEach { row ->
+            .map { row ->
                 hill.first().indices
-                    .forEach { column -> if (hill[row][column] == 'S') startingPosition = Pair(row, column) }
+                    .filter { column -> hill[row][column] == startingPositionSymbol }
+                    .map { column -> Pair(row, column) }
             }
+            .flatten()
+    }
 
+    private fun stepsToEnd(hill: List<CharArray>, startingPosition: Pair<Int, Int>): Int {
         val visited = hill.indices
             .map {
                 hill.first().indices
@@ -34,38 +49,70 @@ class Day12 : Day() {
                 visited[currentSquarePos.first][currentSquarePos.second] = Pair(true, currentSquareDistance)
 
                 if (currentSquarePos.first - 1 >= 0) {
-                    if (atMostOneStepHigher(hill, currentSquarePos, Pair(currentSquarePos.first - 1, currentSquarePos.second))) {
+                    if (atMostOneStepHigher(
+                            hill,
+                            currentSquarePos,
+                            Pair(currentSquarePos.first - 1, currentSquarePos.second)
+                        )
+                    ) {
                         nextSquares.add(Pair(currentSquarePos.first - 1, currentSquarePos.second))
                         val distanceToNextSquare = visited[currentSquarePos.first - 1][currentSquarePos.second].second
                         if (currentSquareDistance + 1 < distanceToNextSquare) {
-                            visited[currentSquarePos.first - 1][currentSquarePos.second] = Pair(visited[currentSquarePos.first - 1][currentSquarePos.second].first, currentSquareDistance + 1)
+                            visited[currentSquarePos.first - 1][currentSquarePos.second] = Pair(
+                                visited[currentSquarePos.first - 1][currentSquarePos.second].first,
+                                currentSquareDistance + 1
+                            )
                         }
                     }
                 }
                 if (currentSquarePos.first + 1 < hill.size) {
-                    if (atMostOneStepHigher(hill, currentSquarePos, Pair(currentSquarePos.first + 1, currentSquarePos.second))) {
+                    if (atMostOneStepHigher(
+                            hill,
+                            currentSquarePos,
+                            Pair(currentSquarePos.first + 1, currentSquarePos.second)
+                        )
+                    ) {
                         nextSquares.add(Pair(currentSquarePos.first + 1, currentSquarePos.second))
                         val distanceToNextSquare = visited[currentSquarePos.first + 1][currentSquarePos.second].second
                         if (currentSquareDistance + 1 < distanceToNextSquare) {
-                            visited[currentSquarePos.first + 1][currentSquarePos.second] = Pair(visited[currentSquarePos.first + 1][currentSquarePos.second].first, currentSquareDistance + 1)
+                            visited[currentSquarePos.first + 1][currentSquarePos.second] = Pair(
+                                visited[currentSquarePos.first + 1][currentSquarePos.second].first,
+                                currentSquareDistance + 1
+                            )
                         }
                     }
                 }
                 if (currentSquarePos.second - 1 >= 0) {
-                    if (atMostOneStepHigher(hill, currentSquarePos, Pair(currentSquarePos.first, currentSquarePos.second - 1))) {
+                    if (atMostOneStepHigher(
+                            hill,
+                            currentSquarePos,
+                            Pair(currentSquarePos.first, currentSquarePos.second - 1)
+                        )
+                    ) {
                         nextSquares.add(Pair(currentSquarePos.first, currentSquarePos.second - 1))
                         val distanceToNextSquare = visited[currentSquarePos.first][currentSquarePos.second - 1].second
                         if (currentSquareDistance + 1 < distanceToNextSquare) {
-                            visited[currentSquarePos.first][currentSquarePos.second - 1] = Pair(visited[currentSquarePos.first][currentSquarePos.second - 1].first, currentSquareDistance + 1)
+                            visited[currentSquarePos.first][currentSquarePos.second - 1] = Pair(
+                                visited[currentSquarePos.first][currentSquarePos.second - 1].first,
+                                currentSquareDistance + 1
+                            )
                         }
                     }
                 }
                 if (currentSquarePos.second + 1 < hill.first().size) {
-                    if (atMostOneStepHigher(hill, currentSquarePos, Pair(currentSquarePos.first, currentSquarePos.second + 1))) {
+                    if (atMostOneStepHigher(
+                            hill,
+                            currentSquarePos,
+                            Pair(currentSquarePos.first, currentSquarePos.second + 1)
+                        )
+                    ) {
                         nextSquares.add(Pair(currentSquarePos.first, currentSquarePos.second + 1))
                         val distanceToNextSquare = visited[currentSquarePos.first][currentSquarePos.second + 1].second
                         if (currentSquareDistance + 1 < distanceToNextSquare) {
-                            visited[currentSquarePos.first][currentSquarePos.second + 1] = Pair(visited[currentSquarePos.first][currentSquarePos.second + 1].first, currentSquareDistance + 1)
+                            visited[currentSquarePos.first][currentSquarePos.second + 1] = Pair(
+                                visited[currentSquarePos.first][currentSquarePos.second + 1].first,
+                                currentSquareDistance + 1
+                            )
                         }
                     }
                 }
@@ -91,10 +138,6 @@ class Day12 : Day() {
         } else {
             hill[next.first][next.second].minus(hill[current.first][current.second]) <= 1
         }
-    }
-
-    override fun solvePart2(input: List<String>): Any {
-        return ""
     }
 
 }
