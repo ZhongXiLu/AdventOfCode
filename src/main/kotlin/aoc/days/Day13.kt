@@ -20,7 +20,17 @@ class Day13 : Day() {
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return ""
+        val sortedPackets = input
+            .asSequence()
+            .chunked(3)
+            .map { (p1, p2, _) -> listOf(p1, p2) }
+            .flatten()
+            .plus(listOf("[[2]]", "[[6]]"))
+            .map { JSON_PARSER.parse(StringBuilder(it)) as JsonArray<Any> }
+            .sortedWith { p1, p2 -> p1 compareTo p2 }
+
+        return sortedPackets.indexOfFirst { it.toString() == "JsonArray(value=[JsonArray(value=[2])])" }.plus(1)
+            .times(sortedPackets.indexOfFirst { it.toString() == "JsonArray(value=[JsonArray(value=[6])])" }.plus(1))
     }
 
 }
