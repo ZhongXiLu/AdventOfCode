@@ -43,11 +43,15 @@ private infix fun Any.compareTo(other: Any): Int {
                 }
                 return comparison
             } else {
-                return -1
+                return 1
             }
         }
 
-        return 1
+        if (newThis.size == newOther.size) {
+            return 0
+        } else {
+            return -1
+        }
     }
 
     return 0
