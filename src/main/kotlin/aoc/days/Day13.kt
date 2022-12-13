@@ -12,8 +12,8 @@ class Day13 : Day() {
         return input
             .chunked(3)
             .mapIndexed { nr, (p1, p2, _) ->
-                val packet1 = JSON_PARSER.parse(StringBuilder(p1)) as JsonArray<Any>
-                val packet2 = JSON_PARSER.parse(StringBuilder(p2)) as JsonArray<Any>
+                val packet1 = JSON_PARSER.parse(StringBuilder(p1)) as JsonArray<*>
+                val packet2 = JSON_PARSER.parse(StringBuilder(p2)) as JsonArray<*>
                 if (packet1 compareTo packet2 < 0) nr + 1 else 0
             }
             .sum()
@@ -26,7 +26,7 @@ class Day13 : Day() {
             .map { (p1, p2, _) -> listOf(p1, p2) }
             .flatten()
             .plus(listOf("[[2]]", "[[6]]"))
-            .map { JSON_PARSER.parse(StringBuilder(it)) as JsonArray<Any> }
+            .map { JSON_PARSER.parse(StringBuilder(it)) as JsonArray<*> }
             .sortedWith { p1, p2 -> p1 compareTo p2 }
 
         return sortedPackets.indexOfFirst { it.toString() == "JsonArray(value=[JsonArray(value=[2])])" }.plus(1)
@@ -36,12 +36,12 @@ class Day13 : Day() {
 }
 
 private infix fun Any.compareTo(other: Any): Int {
-
     if (this.toString().toIntOrNull() != null && other.toString().toIntOrNull() != null) {
         return this.toString().toInt().compareTo(other.toString().toInt())
     }
 
     if (this is JsonArray<*> || other is JsonArray<*>) {
+        // Wrap in list if single element
         val newThis = if (this is JsonArray<*>) this else JsonArray(this)
         val newOther = if (other is JsonArray<*>) other else JsonArray(other)
 
@@ -53,15 +53,11 @@ private infix fun Any.compareTo(other: Any): Int {
                 }
                 return comparison
             } else {
-                return 1
+                return 1         // Left side is longer
             }
         }
 
-        if (newThis.size == newOther.size) {
-            return 0
-        } else {
-            return -1
-        }
+        return if (newThis.size == newOther.size) 0 else -1     // Equal size or right side is longer
     }
 
     return 0

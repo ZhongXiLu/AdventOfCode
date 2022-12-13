@@ -16,5 +16,6 @@
 | 10  | [Cathode-Ray Tube](https://adventofcode.com/2022/day/10)        |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day10.kt) |
 | 11  | [Monkey in the Middle](https://adventofcode.com/2022/day/11)    |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day11.kt) |
 | 12  | [Hill Climbing Algorithm](https://adventofcode.com/2022/day/12) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day12.kt) |
+| 13  | [Distress Signal](https://adventofcode.com/2022/day/13)         |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day13.kt) |
 
 *with some hints from Reddit 😇
