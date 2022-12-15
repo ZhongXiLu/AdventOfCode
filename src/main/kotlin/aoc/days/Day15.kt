@@ -1,6 +1,7 @@
 package aoc.days
 
 import aoc.Day
+import java.math.BigInteger
 import kotlin.math.absoluteValue
 
 private val INPUT_LINE = "Sensor at x=(-?\\d+), y=(-?\\d+): closest beacon is at x=(-?\\d+), y=(-?\\d+)".toRegex()
@@ -18,11 +19,8 @@ class Day15 : Day() {
     override fun solvePart2(input: List<String>): Any {
         val sensors = input.map { SensorBeacon.of(it) }
 
-        return sensors
-            .map { it.getPerimeterCoords() }
-            .flatten()
-            .also { println(it.count()) }
-            .first { coords -> sensors.none { it.withinRange(coords) } }
+        val distressBeacon = sensors.firstNotNullOf { it.findDistressBeaconAtPerimeter(sensors) }
+        return distressBeacon.first.toBigInteger() * BigInteger.valueOf(4000000) + distressBeacon.second.toBigInteger()
     }
 
 }
@@ -52,6 +50,11 @@ private data class SensorBeacon(val sensor: Pair<Int, Int>, val beacon: Pair<Int
                     .mapIndexed { index, x -> listOf(Pair(x, sensor.second - index), Pair(x, sensor.second + index)) }
                     .flatten()
             )
+    }
+
+    fun findDistressBeaconAtPerimeter(sensors: List<SensorBeacon>): Pair<Int, Int>? {
+        return getPerimeterCoords()
+            .firstOrNull { coords -> sensors.none { it.withinRange(coords) } }
     }
 }
 
