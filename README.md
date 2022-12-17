@@ -20,5 +20,6 @@
 | 14  | [Regolith Reservoir](https://adventofcode.com/2022/day/14)      |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day14.kt) |
 | 15  | [Beacon Exclusion Zone](https://adventofcode.com/2022/day/15)   |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day15.kt) |
 | 16  | [Proboscidea Volcanium](https://adventofcode.com/2022/day/16)   |  🌟*   |        | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day16.kt) |
+| 17  | [Pyroclastic Flow](https://adventofcode.com/2022/day/17)        |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day17.kt) |
 
 *with some hints from Reddit 😇

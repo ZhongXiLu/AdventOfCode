@@ -5,26 +5,73 @@ import aoc.Day
 class Day17 : Day() {
 
     override fun solvePart1(input: List<String>): Any {
-        val chamber = Chamber(7, 2022 * 4, JetPattern.of(input.first()))
-        val rockPattern = RockPattern()
-
-        repeat(2022) { chamber.dropRock(rockPattern.next()) }
-
-        return chamber.getHeightOfFallenRocks()
+        val chamber = Chamber(7, 2022 * 4, JetPattern.of(input.first()), RockPattern())
+        return chamber.getHeightAfterDroppingRocks(2022)
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return ""
+        val chamber = Chamber(7, 2022 * 4, JetPattern.of(input.first()), RockPattern())
+        return chamber.getHeightAfterDroppingRocks(1_000_000_000_000)
     }
 
 }
 
-private class Chamber(val width: Int, height: Int, val jetPattern: JetPattern) {
+// God amongst gods class
+private class Chamber(val width: Int, height: Int, val jetPattern: JetPattern, val rockPattern: RockPattern) {
     val chamber: List<CharArray> = listOf("#".repeat(width + 2).toCharArray()).plus(
         (0..height).map { "#".toCharArray().plus(".".repeat(width).toCharArray()).plus("#".toCharArray()) }
     )
+    val fallenRockRows: MutableSet<String> = mutableSetOf()
+    val fallenRockRowsMap: MutableMap<String, Pair<Int, Int>> = mutableMapOf()
+    var rocksDropped = 0
 
-    fun dropRock(rock: List<List<Char>>) {
+    fun getHeightAfterDroppingRocks(amount: Long): Long {
+        // Drop some initial rocks, for some reason, the cycle starts only after x amount of rocks
+        repeat(100) {
+            dropRock(rockPattern.next())
+        }
+
+        // Drop rocks until we have found a repeating cycle
+        while (!foundRepeatingFallenRockPattern()) {
+            dropRock(rockPattern.next())
+        }
+
+        // Do some math calculations
+        val last100RockRows = getLastFallenRockRows(100).map { it.joinToString("") }.joinToString("\n")
+        val (heightDuringLastCycle, rocksDuringLastCycle) = fallenRockRowsMap.get(last100RockRows)!!
+        val rocksDuringCycle = rocksDropped - rocksDuringLastCycle
+        val heightDuringCycle = getCurrentHeight() - heightDuringLastCycle
+        val remainingCycles = amount.minus(rocksDropped).div(rocksDuringCycle)
+        val remainingRocksToDrop = amount.minus(rocksDropped).mod(rocksDuringCycle)
+
+        // Drop the remaining rocks
+        repeat(remainingRocksToDrop) {
+            dropRock(rockPattern.next())
+        }
+
+        // Use the magic math calculations to calculate the final height
+        return getCurrentHeight() + heightDuringCycle * remainingCycles
+    }
+
+    private fun foundRepeatingFallenRockPattern(): Boolean {
+        val last100RockRows = getLastFallenRockRows(100).map { it.joinToString("") }.joinToString("\n")
+        if (last100RockRows in fallenRockRows) {
+            return true
+        } else {
+            fallenRockRows.add(last100RockRows)
+            fallenRockRowsMap.put(last100RockRows, Pair(getCurrentHeight(), rocksDropped))
+            return false
+        }
+    }
+
+    private fun getLastFallenRockRows(rows: Int): List<CharArray> {
+        val lastFallenRockRow = getCurrentHeight()
+        return (lastFallenRockRow downTo lastFallenRockRow - rows + 1)
+            .map { chamber[it] }
+    }
+
+    private fun dropRock(rock: List<List<Char>>) {
+        rocksDropped++
         // Place rock at starting position
         var rockPosition = Pair(getDroppingHeight(rock), 3)
 
@@ -40,13 +87,6 @@ private class Chamber(val width: Int, height: Int, val jetPattern: JetPattern) {
         }
 
         placeRockAt(Pair(rockPosition.first + 1, rockPosition.second), rock)
-    }
-
-    fun getHeightOfFallenRocks(): Int {
-        return chamber
-            .takeWhile { row -> row.count { it == '#' } != 2 }
-            .count()
-            .minus(1)
     }
 
     private fun placeRockAt(position: Pair<Int, Int>, rock: List<List<Char>>) {
@@ -66,12 +106,15 @@ private class Chamber(val width: Int, height: Int, val jetPattern: JetPattern) {
     }
 
     private fun getDroppingHeight(rock: List<List<Char>>): Int {
-        return chamber
-            .takeWhile { row -> row.count { it == '#' } != 2 }
-            .count()
+        return getCurrentHeight()
             .plus(3)
-            .plus(rock.size - 1)
+            .plus(rock.size)
     }
+
+    private fun getCurrentHeight() = chamber
+        .takeWhile { row -> row.count { it == '#' } != 2 }
+        .count()
+        .minus(1)
 
     override fun toString(): String {
         return chamber

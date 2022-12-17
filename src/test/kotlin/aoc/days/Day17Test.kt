@@ -12,7 +12,12 @@ internal class Day17Test {
 
     @Test
     fun testPart1() {
-        assertEquals(3068, day.solvePart1(testInput))
+        assertEquals(3068L, day.solvePart1(testInput))
+    }
+
+    @Test
+    fun testPart2() {
+        assertEquals(1514285714288L, day.solvePart2(testInput))
     }
 
 }
