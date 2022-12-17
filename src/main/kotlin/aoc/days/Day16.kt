@@ -7,6 +7,19 @@ private val INPUT_LINE = "Valve ([A-Z]+) has flow rate=(\\d+); tunnels? leads? t
 class Day16 : Day() {
 
     override fun solvePart1(input: List<String>): Any {
+        val (startValve, valveMap) = initializeValves(input)
+
+        // Calculate every possible path from the start valve to the valves with non-zero flow rate
+        // and retrieve the maximum possible flow.
+        return startValve.getMaximumFlow(valveMap, 30, mutableSetOf(startValve.name))
+            .maxOf { it.first }
+    }
+
+    override fun solvePart2(input: List<String>): Any {
+        return ""
+    }
+
+    private fun initializeValves(input: List<String>): Pair<Valve, MutableMap<String, Valve>> {
         val valves = input.map { Valve.of(it) }
         val startValve = valves.first { it.name == "AA" }
         // Create a valves map, so we could easily retrieve a Valve object based on its name
@@ -24,14 +37,7 @@ class Day16 : Day() {
                 valve.addDistanceToValve(otherValve.name, valves.calculateDistanceTo(valve, otherValve))
             }
         }
-
-        // Calculate every possible path from the start valve to the valves with non-zero flow rate
-        // and retrieve the maximum possible flow.
-        return startValve.getMaximumFlow(valveMap, 30, mutableSetOf(startValve.name))
-    }
-
-    override fun solvePart2(input: List<String>): Any {
-        return ""
+        return Pair(startValve, valveMap)
     }
 
 }
@@ -42,6 +48,13 @@ private data class Valve(
     val connectedValves: List<String>,
     var distanceToOtherValves: MutableMap<String, Int> = mutableMapOf()
 ) {
+    companion object {
+        fun of(line: String): Valve {
+            val (name, rate, connectedValves) = INPUT_LINE.find(line)!!.destructured
+            return Valve(name, rate.toInt(), connectedValves.split(", "))
+        }
+    }
+
     fun addDistanceToValve(valve: String, distance: Int) {
         distanceToOtherValves[valve] = distance
     }
@@ -51,43 +64,32 @@ private data class Valve(
         minutesLeft: Int,
         visited: MutableSet<String>,
         currentRate: Int = 0
-    ): Int {
+    ): List<Pair<Int, MutableSet<String>>> {
         val unvisitedAndReachableValves = distanceToOtherValves
             .filter { (valve, distance) -> valve !in visited && minutesLeft + 2 >= distance }
-        //                                                                   ^^^ -1 for turning on current valve
-        //                                                                   ^^^ -1 for turning on the next valve
+        //                                                                   ^^^ +1 for turning on current valve
+        //                                                                   ^^^ +1 for turning on the next valve
 
         if (unvisitedAndReachableValves.isNotEmpty()) {
             return unvisitedAndReachableValves
-                .maxOf { (valve, distance) ->
+                .map { (valve, distance) ->
                     val newFlow = (currentRate + rate) * distance + currentRate
-                    //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ The flow rate while we're travelling to the next valve
-                    //                                              ^^^^^^^^^^^ Rate while we're turning on the valve
-
-                    val maxFlowPathAhead = valveMap[valve]!!.getMaximumFlow(
+                    val paths = valveMap[valve]!!.getMaximumFlow(
                         valveMap,
 
                         (minutesLeft - distance).minus(if (name == "AA") 0 else 1),
-                        //                                 ^^^^^^^^^^^^ No need to turn on the start valve
+                        //                             ^^^^^^^^^^^^^^^^^ No need to turn on the start valve
 
                         visited.plus(valve).toMutableSet(),
                         (currentRate + rate)
                     )
-                    return@maxOf newFlow + maxFlowPathAhead
+                    return@map paths.map { Pair(it.first + newFlow, it.second) }
                 }
+                .flatten()
         }
 
         // All valves open or no time left to open any more valves  => open current valve and wait until time runs out
-        return ((minutesLeft - 1) * (currentRate + rate)) + currentRate
-        //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ The flow rate while we're waiting until the time runs out
-        //                                                  ^^^^^^^^^^^ Rate while we're turning on the valve
-    }
-
-    companion object {
-        fun of(line: String): Valve {
-            val (name, rate, connectedValves) = INPUT_LINE.find(line)!!.destructured
-            return Valve(name, rate.toInt(), connectedValves.split(", "))
-        }
+        return listOf(Pair(((minutesLeft - 1) * (currentRate + rate)) + currentRate, visited.toMutableSet()))
     }
 
 }

@@ -5,6 +5,7 @@ import kotlin.test.assertEquals
 
 internal class Day16Test {
 
+    private val day = Day16()
     private val testInput = listOf(
         "Valve AA has flow rate=0; tunnels lead to valves DD, II, BB",
         "Valve BB has flow rate=13; tunnels lead to valves CC, AA",
@@ -20,8 +21,12 @@ internal class Day16Test {
 
     @Test
     fun testPart1() {
-        val day = Day16()
         assertEquals(1651, day.solvePart1(testInput))
+    }
+
+    @Test
+    fun testPart2() {
+        assertEquals(1707, day.solvePart2(testInput))
     }
 
 }
