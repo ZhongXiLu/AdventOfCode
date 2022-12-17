@@ -1,6 +1,7 @@
 package aoc.days
 
 import aoc.Day
+import java.util.*
 
 private val INPUT_LINE = "Valve ([A-Z]+) has flow rate=(\\d+); tunnels? leads? to valves? ([A-Z ,]+)".toRegex()
 
@@ -11,15 +12,25 @@ class Day16 : Day() {
 
         // Calculate every possible path from the start valve to the valves with non-zero flow rate
         // and retrieve the maximum possible flow.
-        return startValve.getMaximumFlow(valveMap, 30, mutableSetOf(startValve.name))
-            .maxOf { it.first }
+        return startValve.getFlows(valveMap, 30, mutableSetOf(startValve.name)).maxOf { it.first }
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return ""
+        val (startValve, valveMap, bitMap) = initializeValves(input)
+
+        val flows = startValve.getFlows(valveMap, 26, mutableSetOf(startValve.name))
+            .map { Pair(it.first, it.second.toBitSet(bitMap)) }
+        return flows
+            .parallelStream()
+            .map { flow ->
+                val nonOverlappingFlows = flows.filter { otherFlow -> !flow.second.intersects(otherFlow.second) }
+                return@map flow.first.plus(if (nonOverlappingFlows.isNotEmpty()) nonOverlappingFlows.maxOf { it.first } else 0)
+            }
+            .max { f1, f2 -> f1 - f2 }
+            .get()
     }
 
-    private fun initializeValves(input: List<String>): Pair<Valve, MutableMap<String, Valve>> {
+    private fun initializeValves(input: List<String>): Triple<Valve, MutableMap<String, Valve>, Map<String, Int>> {
         val valves = input.map { Valve.of(it) }
         val startValve = valves.first { it.name == "AA" }
         // Create a valves map, so we could easily retrieve a Valve object based on its name
@@ -37,7 +48,13 @@ class Day16 : Day() {
                 valve.addDistanceToValve(otherValve.name, valves.calculateDistanceTo(valve, otherValve))
             }
         }
-        return Pair(startValve, valveMap)
+
+        // Create a bitmap to create bitsets later on to speed up comparisons of visited Valves
+        val bitMap = valvesWithFlowRate.foldIndexed(mutableMapOf<String, Int>()) { index, map, valve ->
+            map.plus(Pair(valve.name, index)).toMutableMap()
+        }.minus("AA")
+
+        return Triple(startValve, valveMap, bitMap)
     }
 
 }
@@ -59,7 +76,7 @@ private data class Valve(
         distanceToOtherValves[valve] = distance
     }
 
-    fun getMaximumFlow(
+    fun getFlows(
         valveMap: Map<String, Valve>,
         minutesLeft: Int,
         visited: MutableSet<String>,
@@ -74,7 +91,7 @@ private data class Valve(
             return unvisitedAndReachableValves
                 .map { (valve, distance) ->
                     val newFlow = (currentRate + rate) * distance + currentRate
-                    val paths = valveMap[valve]!!.getMaximumFlow(
+                    val paths = valveMap[valve]!!.getFlows(
                         valveMap,
 
                         (minutesLeft - distance).minus(if (name == "AA") 0 else 1),
@@ -93,6 +110,7 @@ private data class Valve(
     }
 
 }
+
 
 private fun List<Valve>.calculateDistanceTo(source: Valve, destination: Valve): Int {
     val nextValves = mutableListOf(Pair(source, 0))
@@ -115,4 +133,12 @@ private fun List<Valve>.calculateDistanceTo(source: Valve, destination: Valve): 
 
 private fun List<Valve>.getValves(connectedValves: List<String>): List<Valve> {
     return this.filter { connectedValves.contains(it.name) }
+}
+
+private fun MutableSet<String>.toBitSet(bitMap: Map<String, Int>): BitSet {
+    val bitSet = BitSet(bitMap.size)
+    this.filter { it != "AA" }
+        .filter { it in bitMap }
+        .forEach { bitSet.set(bitMap[it]!!, true) }
+    return bitSet
 }
