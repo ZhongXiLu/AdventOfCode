@@ -82,13 +82,14 @@ private data class Valve(
         visited: MutableSet<String>,
         currentRate: Int = 0
     ): List<Pair<Int, MutableSet<String>>> {
+        var flows: List<Pair<Int, MutableSet<String>>> = mutableListOf()
         val unvisitedAndReachableValves = distanceToOtherValves
             .filter { (valve, distance) -> valve !in visited && minutesLeft + 2 >= distance }
         //                                                                   ^^^ +1 for turning on current valve
         //                                                                   ^^^ +1 for turning on the next valve
 
         if (unvisitedAndReachableValves.isNotEmpty()) {
-            return unvisitedAndReachableValves
+            flows = unvisitedAndReachableValves
                 .map { (valve, distance) ->
                     val newFlow = (currentRate + rate) * distance + currentRate
                     val paths = valveMap[valve]!!.getFlows(
@@ -106,7 +107,9 @@ private data class Valve(
         }
 
         // All valves open or no time left to open any more valves  => open current valve and wait until time runs out
-        return listOf(Pair(((minutesLeft - 1) * (currentRate + rate)) + currentRate, visited.toMutableSet()))
+        return flows.plus(
+            listOf(Pair(((minutesLeft - 1) * (currentRate + rate)) + currentRate, visited.plus(name).toMutableSet()))
+        )
     }
 
 }
