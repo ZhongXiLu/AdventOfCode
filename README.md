@@ -22,5 +22,6 @@
 | 16  | [Proboscidea Volcanium](https://adventofcode.com/2022/day/16)   |  🌟*   |  🌟*   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day16.kt) |
 | 17  | [Pyroclastic Flow](https://adventofcode.com/2022/day/17)        |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day17.kt) |
 | 18  | [Boiling Boulders](https://adventofcode.com/2022/day/18)        |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day18.kt) |
+| 19  | [Not Enough Minerals](https://adventofcode.com/2022/day/19)     |  🌟*   |        | [![Code](https://img.shields.io/badge/code-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day19.kt) |
 
 *with some hints from Reddit 😇

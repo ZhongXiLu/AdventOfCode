@@ -1,6 +1,7 @@
 package aoc.days
 
 import aoc.Day
+import kotlin.math.max
 
 private val INPUT_LINE =
     "Blueprint (\\d+): Each ore robot costs (\\d+) ore. Each clay robot costs (\\d+) ore. Each obsidian robot costs (\\d+) ore and (\\d+) clay. Each geode robot costs (\\d+) ore and (\\d+) obsidian.".toRegex()
@@ -24,15 +25,35 @@ class Day19 : Day() {
 }
 
 private class Simulation(val blueprint: Blueprint) {
+    var maxPossibleGeodes = 0
+
     fun getMaxPossibleGeode(minutes: Int, resources: MutableMap<String, Int>, robots: MutableMap<String, Int>): Int {
         if (minutes == 0) {
+            maxPossibleGeodes = max(maxPossibleGeodes, resources["geode"]!!)
             return resources["geode"]!!
         }
 
-        val possibleRobotsToBuild = robotToBuild(resources, listOf("geode", "obsidian", "clay", "ore"))
+        var possibleRobotsToBuild = robotToBuild(resources, listOf("geode", "obsidian", "clay", "ore")).plus(null)
+
+        // Some optimisations to reduce the search space
+        if (robots.any { (_, robotAmount) -> robotAmount >= 10 }) {
+            return 0
+        }
+        if (resources.any { (_, amount) -> amount > 70 }) {
+            return 0
+        }
+        if (possibleRobotsToBuild.contains("geode")) {
+            possibleRobotsToBuild = possibleRobotsToBuild.filter { it == "geode" }
+        }
+        if (possibleRobotsToBuild.contains("obsidian")) {
+            possibleRobotsToBuild = possibleRobotsToBuild.filter { it == "obsidian" }
+        }
+        // Thanks to https://www.reddit.com/r/adventofcode/comments/zpihwi/comment/j0tls7a/
+        if (resources["geode"]!! + robots["geode"]!! * minutes + ((minutes * (minutes + 1)) / 2) <= maxPossibleGeodes) {
+            return 0
+        }
 
         return possibleRobotsToBuild
-            .plus(null) // build no robot
             .parallelStream()
             .map {
                 val (newResources, newRobots, newRobot) = Triple(HashMap(resources), HashMap(robots), it)
