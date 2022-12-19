@@ -8,8 +8,13 @@ private val INPUT_LINE =
 class Day19 : Day() {
 
     override fun solvePart1(input: List<String>): Any {
-        return input.map { Blueprint.of(it) }
-            .sumOf { Simulation(it).run(24) }
+        return input.map { Blueprint.of(it) }.sumOf {
+            it.nr * Simulation(it).getMaxPossibleGeode(
+                24,
+                mutableMapOf("ore" to 0, "clay" to 0, "obsidian" to 0, "geode" to 0),
+                mutableMapOf("ore" to 1, "clay" to 0, "obsidian" to 0, "geode" to 0)
+            )
+        }
     }
 
     override fun solvePart2(input: List<String>): Any {
@@ -18,42 +23,43 @@ class Day19 : Day() {
 
 }
 
-private class Simulation(val blueprint: Blueprint, oreRobots: Int = 1) {
-    val resources = mutableMapOf("ore" to 0, "clay" to 0, "obsidian" to 0, "geode" to 0)
-    val robots = mutableMapOf("ore" to oreRobots, "clay" to 0, "obsidian" to 0, "geode" to 0)
-
-    fun run(minutes: Int): Int {
-        repeat(minutes) {
-            // Robots to build
-            val robotToBuild = robotToBuild(listOf("geode", "obsidian", "clay", "ore")) // in this order/priority
-
-            // Robots mine resources
-            robots.forEach { (robotType, robotAmount) -> resources[robotType] = resources[robotType]!! + robotAmount }
-
-            // Finish building robot
-            if (robotToBuild != null) finishBuildingRobot(robotToBuild)
+private class Simulation(val blueprint: Blueprint) {
+    fun getMaxPossibleGeode(minutes: Int, resources: MutableMap<String, Int>, robots: MutableMap<String, Int>): Int {
+        if (minutes == 0) {
+            return resources["geode"]!!
         }
 
-        return blueprint.nr * resources["geode"]!!
+        val possibleRobotsToBuild = robotToBuild(resources, listOf("geode", "obsidian", "clay", "ore"))
+
+        return possibleRobotsToBuild
+            .plus(null) // build no robot
+            .parallelStream()
+            .map {
+                val (newResources, newRobots, newRobot) = Triple(HashMap(resources), HashMap(robots), it)
+
+                if (newRobot != null) startBuildingRobot(newResources, newRobot)
+                newRobots.forEach { (robotType, robotAmount) ->
+                    newResources[robotType] = newResources[robotType]!! + robotAmount
+                }
+                if (newRobot != null) finishBuildingRobot(newRobots, newRobot)
+
+                return@map Pair(newResources, newRobots)
+            }
+            .map { (resources, robots) -> getMaxPossibleGeode(minutes - 1, resources, robots) }
+            .max { g1, g2 -> g1 - g2 }
+            .get()
     }
 
-    private fun robotToBuild(robots: List<String>) = robots
-        .firstOrNull {
-            if (blueprint.robotCosts[it]!!.hasEnoughResources(resources)) {
-                startBuildingRobot(it)
-                return@firstOrNull true
-            } else {
-                return@firstOrNull false
-            }
-        }
+    private fun robotToBuild(resources: MutableMap<String, Int>, robots: List<String>) = robots
+        .filter { blueprint.robotCosts[it]!!.hasEnoughResources(resources) }
 
-    private fun startBuildingRobot(robotType: String) {
+    private fun startBuildingRobot(resources: MutableMap<String, Int>, robotType: String) {
         blueprint.robotCosts[robotType]!!.costs.forEach { (resource, cost) ->
             resources[resource] = resources[resource]!! - cost
         }
     }
 
-    private fun finishBuildingRobot(robotType: String) {
+    private fun finishBuildingRobot(robots: MutableMap<String, Int>, robotType: String) {
         robots[robotType] = robots[robotType]!! + 1
     }
 }
