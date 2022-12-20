@@ -20,7 +20,7 @@ class Day20 : Day() {
 }
 
 private class EncryptedFile(val numbers: LinkedList<Int>) {
-    val numberIndices = numbers.mapIndexed { index, i -> Pair(i, index) }.toMap().toMutableMap()
+    val uniqueNumbers = LinkedList(numbers.mapIndexed { index, i -> Pair(index, i) })
 
     companion object {
         fun of(input: List<String>): EncryptedFile {
@@ -29,48 +29,32 @@ private class EncryptedFile(val numbers: LinkedList<Int>) {
     }
 
     fun mix() {
-        numbers.toList().forEach { value ->
-            if (value != 0) {
-                val oldIndex = numberIndices[value]!!
-                var newIndex = getIndex(oldIndex + value + if (value > 0) 1 else 0)
-                if (newIndex == 0) newIndex = numbers.size
+        uniqueNumbers.toList().forEach { value ->
+            if (value.second != 0) {
+                val oldIndex = uniqueNumbers.indexOf(value)
+                val newIndex = getIndex(oldIndex + value.second + if (value.second > 0) 1 else 0)
                 moveNumber(value, oldIndex, newIndex)
-                shiftNumbers(oldIndex, newIndex)
             }
         }
     }
 
     fun getGroveCoords(): Int {
-        val indexOfZero = numbers.indexOf(0)
+        val indexOfZero = uniqueNumbers.indexOfFirst { it.second == 0 }
         return this[indexOfZero + 1000] + this[indexOfZero + 2000] + this[indexOfZero + 3000]
     }
 
     operator fun get(i: Int): Int {
-        return numbers[getIndex(i)]
+        return uniqueNumbers[getIndex(i)].second
     }
 
-    private fun shiftNumbers(oldIndex: Int, newIndex: Int) {
-        numbers.mapIndexed { index, i -> Pair(index, i) }
-            .filter { (index, _) -> index in (oldIndex until newIndex) || index in (oldIndex downTo newIndex + 1) }
-            .forEach { (_, value) ->
-                numberIndices[value] = numberIndices[value]!! + if (newIndex > oldIndex) -1 else 1
-            }
-    }
-
-    private fun moveNumber(value: Int, oldIndex: Int, newIndex: Int) {
-        numbers.add(newIndex, value)
-        if (newIndex > oldIndex || newIndex == 0) {
-            numbers.removeAt(oldIndex)
-            numberIndices[value] = numberIndices[value]!! + newIndex - oldIndex
-        } else {
-            numbers.removeAt(oldIndex + 1)
-            numberIndices[value] = numberIndices[value]!! - oldIndex - newIndex
-        }
+    private fun moveNumber(value: Pair<Int, Int>, oldIndex: Int, newIndex: Int) {
+        uniqueNumbers.add(newIndex, value)
+        uniqueNumbers.removeAt(oldIndex + if (newIndex > oldIndex) 0 else 1)
     }
 
     private fun getIndex(i: Int): Int {
         var newIndex = i % numbers.size
-        if (newIndex < 0) newIndex += numbers.size
+        if (newIndex <= 0) newIndex += numbers.size
         return newIndex
     }
 
