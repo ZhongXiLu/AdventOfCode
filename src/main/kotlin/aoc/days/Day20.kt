@@ -2,6 +2,8 @@ package aoc.days
 
 import aoc.Day
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 class Day20 : Day() {
 
@@ -31,7 +33,7 @@ private class EncryptedFile(val numbers: LinkedList<Int>) {
     fun mix() {
         uniqueNumbers.toList().forEach { value ->
             val oldIndex = uniqueNumbers.indexOf(value)
-            val newIndex = getIndex(oldIndex + value.second)
+            val newIndex = getNewIndex(oldIndex + (value.second))
             moveNumber(oldIndex, newIndex)
         }
     }
@@ -42,23 +44,19 @@ private class EncryptedFile(val numbers: LinkedList<Int>) {
     }
 
     operator fun get(i: Int): Int {
-        return uniqueNumbers[getIndex(i)].second
+        return uniqueNumbers[i % uniqueNumbers.size].second
     }
 
     private fun moveNumber(oldIndex: Int, newIndex: Int) {
-        if (newIndex > oldIndex) {
-            // Move number forward
-            Collections.rotate(uniqueNumbers.subList(oldIndex, newIndex + 1), -1)
-        } else {
-            // Move number backward
-            Collections.rotate(uniqueNumbers.subList(newIndex + 1, oldIndex + 1), 1)
-        }
+        Collections.rotate(
+            uniqueNumbers.subList(min(oldIndex, newIndex), max(oldIndex, newIndex) + 1),
+            if (newIndex > oldIndex) -1 else 1
+        )
     }
 
-    private fun getIndex(i: Int): Int {
-        var newIndex = i % numbers.size
-        if (newIndex < 0) newIndex = numbers.size + newIndex - 1
-        if (newIndex == 0) newIndex = numbers.size - 1
+    private fun getNewIndex(i: Int): Int {
+        var newIndex = i % (numbers.size - 1)
+        if (newIndex <= 0) newIndex += (numbers.size - 1)
         return newIndex
     }
 
