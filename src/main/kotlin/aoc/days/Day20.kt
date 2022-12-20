@@ -16,34 +16,46 @@ class Day20 : Day() {
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return 0
+        val encryptedFile = EncryptedFile.of(input)
+
+        encryptedFile.decrypt(811589153)
+        encryptedFile.mix(10)
+
+        return encryptedFile.getGroveCoords()
     }
 
 }
 
-private class EncryptedFile(val numbers: LinkedList<Int>) {
-    val uniqueNumbers = LinkedList(numbers.mapIndexed { index, i -> Pair(index, i) })
+private class EncryptedFile(val numbers: LinkedList<Long>) {
+    var uniqueNumbers = numbers.mapIndexed { index, i -> Pair(index, i) }
 
     companion object {
         fun of(input: List<String>): EncryptedFile {
-            return EncryptedFile(LinkedList(input.map { it.toInt() }))
+            return EncryptedFile(LinkedList(input.map { it.toLong() }))
         }
     }
 
-    fun mix() {
-        uniqueNumbers.toList().forEach { value ->
-            val oldIndex = uniqueNumbers.indexOf(value)
-            val newIndex = getNewIndex(oldIndex + (value.second))
-            moveNumber(oldIndex, newIndex)
+    fun mix(times: Int = 1) {
+        val originalList = uniqueNumbers.toList()
+        repeat(times) {
+            originalList.forEach { value ->
+                val oldIndex = uniqueNumbers.indexOf(value)
+                val newIndex = getNewIndex(oldIndex.toLong() + value.second)
+                moveNumber(oldIndex, newIndex)
+            }
         }
     }
 
-    fun getGroveCoords(): Int {
-        val indexOfZero = uniqueNumbers.indexOfFirst { it.second == 0 }
+    fun getGroveCoords(): Long {
+        val indexOfZero = uniqueNumbers.indexOfFirst { it.second == 0L }
         return this[indexOfZero + 1000] + this[indexOfZero + 2000] + this[indexOfZero + 3000]
     }
 
-    operator fun get(i: Int): Int {
+    fun decrypt(key: Long) {
+        uniqueNumbers = uniqueNumbers.map { (index, value) -> Pair(index, value * key) }
+    }
+
+    operator fun get(i: Int): Long {
         return uniqueNumbers[i % uniqueNumbers.size].second
     }
 
@@ -54,10 +66,10 @@ private class EncryptedFile(val numbers: LinkedList<Int>) {
         )
     }
 
-    private fun getNewIndex(i: Int): Int {
+    private fun getNewIndex(i: Long): Int {
         var newIndex = i % (numbers.size - 1)
         if (newIndex <= 0) newIndex += (numbers.size - 1)
-        return newIndex
+        return newIndex.toInt()
     }
 
 }
