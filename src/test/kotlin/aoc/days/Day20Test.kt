@@ -18,7 +18,7 @@ internal class Day20Test {
 
     @Test
     fun testPart1() {
-        assertEquals(3, day.solvePart1(testInput))
+        assertEquals(3L, day.solvePart1(testInput))
     }
 
 }
