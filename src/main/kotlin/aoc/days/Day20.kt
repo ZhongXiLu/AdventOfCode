@@ -30,11 +30,9 @@ private class EncryptedFile(val numbers: LinkedList<Int>) {
 
     fun mix() {
         uniqueNumbers.toList().forEach { value ->
-            if (value.second != 0) {
-                val oldIndex = uniqueNumbers.indexOf(value)
-                val newIndex = getIndex(oldIndex + value.second + if (value.second > 0) 1 else 0)
-                moveNumber(value, oldIndex, newIndex)
-            }
+            val oldIndex = uniqueNumbers.indexOf(value)
+            val newIndex = getIndex(oldIndex + value.second)
+            moveNumber(oldIndex, newIndex)
         }
     }
 
@@ -47,14 +45,20 @@ private class EncryptedFile(val numbers: LinkedList<Int>) {
         return uniqueNumbers[getIndex(i)].second
     }
 
-    private fun moveNumber(value: Pair<Int, Int>, oldIndex: Int, newIndex: Int) {
-        uniqueNumbers.add(newIndex, value)
-        uniqueNumbers.removeAt(oldIndex + if (newIndex > oldIndex) 0 else 1)
+    private fun moveNumber(oldIndex: Int, newIndex: Int) {
+        if (newIndex > oldIndex) {
+            // Move number forward
+            Collections.rotate(uniqueNumbers.subList(oldIndex, newIndex + 1), -1)
+        } else {
+            // Move number backward
+            Collections.rotate(uniqueNumbers.subList(newIndex + 1, oldIndex + 1), 1)
+        }
     }
 
     private fun getIndex(i: Int): Int {
         var newIndex = i % numbers.size
-        if (newIndex <= 0) newIndex += numbers.size
+        if (newIndex < 0) newIndex = numbers.size + newIndex - 1
+        if (newIndex == 0) newIndex = numbers.size - 1
         return newIndex
     }
 
