@@ -24,5 +24,6 @@
 | 18  | [Boiling Boulders](https://adventofcode.com/2022/day/18)         |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day18.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day18.kt) |
 | 19  | [Not Enough Minerals](https://adventofcode.com/2022/day/19)      |  🌟*   |   🌟   | [![Code](https://img.shields.io/badge/Day19.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day19.kt) |
 | 20  | [Grove Positioning System](https://adventofcode.com/2022/day/20) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day20.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day20.kt) |
+| 21  | [Monkey Math](https://adventofcode.com/2022/day/21)              |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day21.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day21.kt) |
 
 *with some hints from Reddit 😇
