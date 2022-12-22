@@ -40,11 +40,11 @@ private data class Map(val map: List<CharArray>, val cubeLayout: Boolean = false
         val CUBE_LAYOUT = mapOf(
             1 to mapOf(
                 "TOP" to { x: Int -> Pair(Pair(150 + x, 0), ">") }, // 6
-                "LEFT" to { x: Int -> Pair(Pair(100 + x, 0), ">") }, // 5
+                "LEFT" to { x: Int -> Pair(Pair(149 - x, 0), ">") }, // 5
             ),
             2 to mapOf(
                 "TOP" to { x: Int -> Pair(Pair(199, 0 + x), "^") }, // 6
-                "RIGHT" to { x: Int -> Pair(Pair(100 + x, 99), "<") }, // 4
+                "RIGHT" to { x: Int -> Pair(Pair(149 - x, 99), "<") }, // 4
                 "BOTTOM" to { x: Int -> Pair(Pair(50 + x, 99), "<") }, // 3
             ),
             3 to mapOf(
@@ -52,12 +52,12 @@ private data class Map(val map: List<CharArray>, val cubeLayout: Boolean = false
                 "LEFT" to { x: Int -> Pair(Pair(100, 0 + x), "v") }, // 5
             ),
             4 to mapOf(
-                "RIGHT" to { x: Int -> Pair(Pair(0 + x, 149), "<") }, // 2
+                "RIGHT" to { x: Int -> Pair(Pair(49 - x, 149), "<") }, // 2
                 "BOTTOM" to { x: Int -> Pair(Pair(150 + x, 49), "<") }, // 6
             ),
             5 to mapOf(
                 "TOP" to { x: Int -> Pair(Pair(50 + x, 50), ">") }, // 3
-                "LEFT" to { x: Int -> Pair(Pair(0 + x, 50), ">") }, // 1
+                "LEFT" to { x: Int -> Pair(Pair(49 - x, 50), ">") }, // 1
             ),
             6 to mapOf(
                 "RIGHT" to { x: Int -> Pair(Pair(149, 50 + x), "^") }, // 4
@@ -131,14 +131,9 @@ private data class Map(val map: List<CharArray>, val cubeLayout: Boolean = false
                 }
             }
 
-            if (map[newPosition.first][newPosition.second] == '.'
-                || map[newPosition.first][newPosition.second] == '<'
-                || map[newPosition.first][newPosition.second] == '>'
-                || map[newPosition.first][newPosition.second] == 'v'
-                || map[newPosition.first][newPosition.second] == '^') {
+            if (map[newPosition.first][newPosition.second] == '.') {
                 position = newPosition
                 direction = newDirection
-                map[newPosition.first][newPosition.second] = newDirection.single()
             }
         }
     }
@@ -177,8 +172,8 @@ private data class Map(val map: List<CharArray>, val cubeLayout: Boolean = false
     }
 
     private fun getRightMostPosition(row: Int): Pair<Int, Int> {
-        val leftMostColumn = map[row].indexOfLast { !it.isWhitespace() }
-        return Pair(row, leftMostColumn)
+        val rightMostColumn = map[row].indexOfLast { !it.isWhitespace() }
+        return Pair(row, rightMostColumn)
     }
 
     private fun rotate(newDirection: String) {
