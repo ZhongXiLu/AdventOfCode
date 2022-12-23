@@ -13,7 +13,9 @@ class Day23 : Day() {
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return 0
+        val grove = Grove.of(input, 999)
+
+        return grove.simulate()
     }
 
 }
@@ -46,18 +48,24 @@ private class Grove(val grove: MutableList<MutableList<Char>>) {
         }
     }
 
-    fun simulate(rounds: Int) {
-        repeat(rounds) {
+    fun simulate(rounds: Int = 999): Int {
+        repeat(rounds) { round ->
             val proposals = getElves()
                 .filter { it.surroundedByOtherElf() }
                 .mapNotNull { it.proposeStep() }
-            val approvedProposals = proposals
+
+            if (proposals.isEmpty()) {
+                return round + 1
+            }
+
+            proposals
                 .filter { p1 -> proposals.filter { p2 -> p1.from != p2.from }.none { p2 -> p1.to == p2.to } }
-            approvedProposals
                 .forEach { this.executeProposal(it) }
 
             directions.add(directions.removeFirst())
         }
+
+        return -1
     }
 
     private fun getElves(): List<Pair<Int, Int>> {

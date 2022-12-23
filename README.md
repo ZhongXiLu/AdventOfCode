@@ -26,5 +26,6 @@
 | 20  | [Grove Positioning System](https://adventofcode.com/2022/day/20) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day20.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day20.kt) |
 | 21  | [Monkey Math](https://adventofcode.com/2022/day/21)              |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day21.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day21.kt) |
 | 22  | [Monkey Map](https://adventofcode.com/2022/day/22)               |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day22.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day22.kt) |
+| 23  | [Unstable Diffusion](https://adventofcode.com/2022/day/23)       |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day23.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/days/Day23.kt) |
 
 *with some hints from Reddit 😇
