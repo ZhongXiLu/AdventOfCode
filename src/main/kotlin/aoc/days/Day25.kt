@@ -10,7 +10,7 @@ class Day25 : Day() {
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return 0
+        return "Merry Christmas 🎅"
     }
 
 }
