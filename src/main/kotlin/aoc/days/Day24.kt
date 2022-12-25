@@ -35,25 +35,29 @@ private class Valley(val map: MutableList<MutableList<MutableList<Char>>>) {
     fun findStepsToEnd(): Int {
         val startPosition = getStartingPosition()
         val endPosition = getEndPosition()
-        val queue = mutableListOf(Triple(startPosition, map, 0))
+        var currentBatch: MutableSet<Pair<Pair<Int, Int>, Int>>
+        val nextBatch = mutableSetOf(Pair(startPosition, 0))
 
-        while (queue.isNotEmpty()) {
-            val (currentPos, curValley, steps) = queue.removeFirst()
-            if (currentPos == endPosition) return steps
+        while (nextBatch.isNotEmpty()) {
+            currentBatch = nextBatch.map { it }.toMutableSet()
+            nextBatch.clear()
+            moveBlizzards()
 
-            moveBlizzards(curValley)
+            currentBatch.forEach { state ->
+                val (currentPos, steps) = state
+                if (currentPos == endPosition) return steps
 
-            findValidPlayerPositions(curValley, currentPos)
-                .forEach {
-                    queue.add(Triple(it, curValley.deepCopy(), steps + 1))
+                findValidPlayerPositions(currentPos).forEach {
+                    nextBatch.add(Pair(it, steps + 1))
                 }
+            }
         }
 
         return 0
     }
 
-    private fun moveBlizzards(valley: MutableList<MutableList<MutableList<Char>>>) {
-        valley.mapIndexed { x, row ->
+    private fun moveBlizzards() {
+        map.mapIndexed { x, row ->
             row.mapIndexed { y, blizzards ->
                 blizzards.mapNotNull { blizzard ->
                     if (blizzard in BLIZZARD_MOVEMENT) return@mapNotNull blizzard.moveFrom(Pair(x, y)) else null
@@ -61,7 +65,7 @@ private class Valley(val map: MutableList<MutableList<MutableList<Char>>>) {
             }.flatten()
         }
             .flatten()
-            .forEach { it.move(valley) }
+            .forEach { it.move() }
     }
 
     private fun Char.moveFrom(oldPos: Pair<Int, Int>): BlizzardMovement {
@@ -79,19 +83,16 @@ private class Valley(val map: MutableList<MutableList<MutableList<Char>>>) {
         return BlizzardMovement(this, oldPos, Pair(newX, newY))
     }
 
-    private fun BlizzardMovement.move(valley: MutableList<MutableList<MutableList<Char>>>) {
-        valley[this.from.first][this.from.second].remove(this.char)
-        valley[this.to.first][this.to.second].add(this.char)
+    private fun BlizzardMovement.move() {
+        map[this.from.first][this.from.second].remove(this.char)
+        map[this.to.first][this.to.second].add(this.char)
     }
 
-    private fun findValidPlayerPositions(
-        valley: MutableList<MutableList<MutableList<Char>>>,
-        pos: Pair<Int, Int>
-    ): List<Pair<Int, Int>> {
+    private fun findValidPlayerPositions(pos: Pair<Int, Int>): List<Pair<Int, Int>> {
         val (x, y) = pos
         return listOf(pos, Pair(x - 1, y), Pair(x + 1, y), Pair(x, y - 1), Pair(x, y + 1))
-            .filter { it.first in valley.indices && it.second in valley.first().indices }
-            .filter { valley[it.first][it.second].isEmpty() }
+            .filter { it.first in map.indices && it.second in map.first().indices }
+            .filter { map[it.first][it.second].isEmpty() }
     }
 
     private fun getStartingPosition(): Pair<Int, Int> {
@@ -110,6 +111,3 @@ private class Valley(val map: MutableList<MutableList<MutableList<Char>>>) {
 
 private data class BlizzardMovement(val char: Char, val from: Pair<Int, Int>, val to: Pair<Int, Int>)
 
-private fun MutableList<MutableList<MutableList<Char>>>.deepCopy(): MutableList<MutableList<MutableList<Char>>> {
-    return this.map { row -> row.map { chars -> chars.map { it }.toMutableList() }.toMutableList() }.toMutableList()
-}
