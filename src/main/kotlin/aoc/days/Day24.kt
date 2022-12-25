@@ -5,11 +5,15 @@ import aoc.Day
 class Day24 : Day() {
 
     override fun solvePart1(input: List<String>): Any {
-        return Valley.of(input).findStepsToEnd()
+        val valley = Valley.of(input)
+        return valley.timeFromSourceToTarget(valley.startingPosition(), valley.endPosition())
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return 0
+        val valley = Valley.of(input)
+        return valley.timeFromSourceToTarget(valley.startingPosition(), valley.endPosition())
+            .plus(valley.timeFromSourceToTarget(valley.endPosition(), valley.startingPosition()))
+            .plus(valley.timeFromSourceToTarget(valley.startingPosition(), valley.endPosition()))
     }
 
 }
@@ -32,20 +36,22 @@ private class Valley(val map: MutableList<MutableList<MutableList<Char>>>) {
         }
     }
 
-    fun findStepsToEnd(): Int {
-        val startPosition = getStartingPosition()
-        val endPosition = getEndPosition()
+    fun timeFromSourceToTarget(source: Pair<Int, Int>, target: Pair<Int, Int>): Int {
         var currentBatch: MutableSet<Pair<Pair<Int, Int>, Int>>
-        val nextBatch = mutableSetOf(Pair(startPosition, 0))
+        val nextBatch = mutableSetOf(Pair(source, 0))
 
         while (nextBatch.isNotEmpty()) {
             currentBatch = nextBatch.map { it }.toMutableSet()
             nextBatch.clear()
+
+            val atTarget = currentBatch.firstOrNull { return@firstOrNull it.first == target }
+            if (atTarget != null) return atTarget.second
+
             moveBlizzards()
 
             currentBatch.forEach { state ->
                 val (currentPos, steps) = state
-                if (currentPos == endPosition) return steps
+                if (currentPos == target) return steps
 
                 findValidPlayerPositions(currentPos).forEach {
                     nextBatch.add(Pair(it, steps + 1))
@@ -54,6 +60,14 @@ private class Valley(val map: MutableList<MutableList<MutableList<Char>>>) {
         }
 
         return 0
+    }
+
+    fun startingPosition(): Pair<Int, Int> {
+        return Pair(0, map.first().indexOfFirst { it.isEmpty() })
+    }
+
+    fun endPosition(): Pair<Int, Int> {
+        return Pair(map.size - 1, map.last().indexOfFirst { it.isEmpty() })
     }
 
     private fun moveBlizzards() {
@@ -93,14 +107,6 @@ private class Valley(val map: MutableList<MutableList<MutableList<Char>>>) {
         return listOf(pos, Pair(x - 1, y), Pair(x + 1, y), Pair(x, y - 1), Pair(x, y + 1))
             .filter { it.first in map.indices && it.second in map.first().indices }
             .filter { map[it.first][it.second].isEmpty() }
-    }
-
-    private fun getStartingPosition(): Pair<Int, Int> {
-        return Pair(0, map.first().indexOfFirst { it.isEmpty() })
-    }
-
-    private fun getEndPosition(): Pair<Int, Int> {
-        return Pair(map.size - 1, map.last().indexOfFirst { it.isEmpty() })
     }
 
     override fun toString(): String {
