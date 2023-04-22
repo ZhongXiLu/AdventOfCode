@@ -22,7 +22,7 @@ class DayRunner {
             .first()
 
         val dayClass = reflections.getTypesAnnotatedWith(yearAnnotation)
-            .find { it.simpleName.contains(dayNr.padStart(2, '0')) }
+            .find { it.simpleName.contains("Day${dayNr.padStart(2, '0')}") }
             ?.asSubclass(Day::class.java)
 
         if (dayClass != null) {
