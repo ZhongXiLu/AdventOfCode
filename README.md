@@ -30,6 +30,19 @@
 | 24  | [Blizzard Basin](https://adventofcode.com/2022/day/24)           |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day24.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2022/Day24.kt) |
 | 25  | [Full of Hot Air](https://adventofcode.com/2022/day/25)          |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day25.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2022/Day25.kt) |
 
+<details>
+  <summary><h3>2021</h3></summary>
+
+| Day | Title                                                       | Part 1 | Part 2 | Code                                                                                                                                                      |
+|-----|-------------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 01  | [Sonar Sweep](https://adventofcode.com/2021/day/1)          |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day01.kt) |
+| 02  | [Dive!](https://adventofcode.com/2021/day/2)                |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day02.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day02.kt) |
+| 03  | [Binary Diagnostic](https://adventofcode.com/2021/day/3)    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day03.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day03.kt) |
+| 04  | [Giant Squid](https://adventofcode.com/2021/day/4)          |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day04.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day04.kt) |
+| 05  | [Hydrothermal Venture](https://adventofcode.com/2021/day/5) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day05.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day05.kt) |
+| 06  | [Lanternfish](https://adventofcode.com/2021/day/6)          |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/Day06.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day06.kt) |
+</details>
+
 *with some hints from Reddit 😇
 
 ## How to add a new day and how to run it
