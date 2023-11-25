@@ -12,14 +12,13 @@ fun main(args: Array<String>) {
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 class DayRunner {
 
     private val reflections = Reflections("aoc")
 
     fun run(year: String, dayNr: String) {
-        val yearAnnotation = Class.forName("aoc.years.year$year.Year$year")
-            .declaredAnnotations
-            .first()
+        val yearAnnotation = Class.forName("aoc.years.year$year.Year$year") as Class<out Annotation>
 
         val dayClass = reflections.getTypesAnnotatedWith(yearAnnotation)
             .find { it.simpleName.contains("Day${dayNr.padStart(2, '0')}") }
