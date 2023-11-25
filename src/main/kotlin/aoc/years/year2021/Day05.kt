@@ -32,7 +32,7 @@ class Day05 : Day() {
 
 }
 
-data class Vent(val fromX: Int, val fromY: Int, val toX: Int, val toY: Int) {
+private data class Vent(val fromX: Int, val fromY: Int, val toX: Int, val toY: Int) {
     companion object {
         private val VENT_INPUT_LINE = "(\\d+),(\\d+) -> (\\d+),(\\d+)".toRegex()
         fun of(input: String): Vent {

@@ -34,7 +34,7 @@ class Day02 : Day() {
     }
 }
 
-data class Position(val horizontal: Int, val depth: Int, val aim: Int = 0) {
+private data class Position(val horizontal: Int, val depth: Int, val aim: Int = 0) {
     fun forward(value: Int): Position = Position(this.horizontal + value, this.depth + this.aim * value, this.aim)
     fun increaseDepth(value: Int): Position = Position(this.horizontal, this.depth + value, this.aim)
     fun increaseAim(value: Int): Position = Position(this.horizontal, this.depth, this.aim + value)

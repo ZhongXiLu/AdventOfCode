@@ -51,7 +51,7 @@ private fun List<BingoCard>.getWinningCards(): List<BingoCard> {
     return this.filter { it.isWinning() }
 }
 
-data class BingoCard(var card: List<List<String>>, val input: List<String>) {
+private data class BingoCard(var card: List<List<String>>, val input: List<String>) {
     companion object {
         fun of(input: List<String>): BingoCard {
             return BingoCard(input.map { it.split(" ").filter(String::isNotBlank) }, input)
