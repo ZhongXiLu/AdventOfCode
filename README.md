@@ -1,6 +1,15 @@
 # Advent Of Code
 
-### 2022 ![Kotlin CI](https://github.com/ZhongXiLu/AdventOfCode/workflows/Kotlin%20CI/badge.svg)
+### 2023 ![Kotlin CI](https://github.com/ZhongXiLu/AdventOfCode/workflows/Kotlin%20CI/badge.svg)
+
+
+| Day | Title                                      | Part 1 | Part 2 | Code                                                                                                                                                      |
+|-----|--------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 01  | [...](https://adventofcode.com/2022/day/1) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day01.kt) |
+
+
+<details>
+  <summary><h3>2022</h3></summary>
 
 | Day | Title                                                            | Part 1 | Part 2 | Code                                                                                                                                                      |
 |-----|------------------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -29,6 +38,7 @@
 | 23  | [Unstable Diffusion](https://adventofcode.com/2022/day/23)       |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day23.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2022/Day23.kt) |
 | 24  | [Blizzard Basin](https://adventofcode.com/2022/day/24)           |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day24.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2022/Day24.kt) |
 | 25  | [Full of Hot Air](https://adventofcode.com/2022/day/25)          |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day25.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2022/Day25.kt) |
+</details>
 
 <details>
   <summary><h3>2021</h3></summary>
@@ -45,6 +55,7 @@
 | 08  | [Seven Segment Search](https://adventofcode.com/2021/day/8)    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day08.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day08.kt) |
 | 09  | [Smoke Basin](https://adventofcode.com/2021/day/9)             |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day09.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day09.kt) |
 | 10  | [Syntax Scoring](https://adventofcode.com/2021/day/10)         |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day10.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day10.kt) |
+| 11  | [Dumbo Octopus](https://adventofcode.com/2021/day/11)          |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day11.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day11.kt) |
 </details>
 
 *with some hints from Reddit 😇
