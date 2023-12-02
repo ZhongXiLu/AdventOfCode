@@ -1,11 +1,11 @@
-# Advent Of Code
+# Advent Of Code ![Kotlin CI](https://github.com/ZhongXiLu/AdventOfCode/workflows/Kotlin%20CI/badge.svg)
 
-### 2023 ![Kotlin CI](https://github.com/ZhongXiLu/AdventOfCode/workflows/Kotlin%20CI/badge.svg)
+### 2023
 
-
-| Day | Title                                              | Part 1 | Part 2 | Code                                                                                                                                                      |
-|-----|----------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 01  | [Trebuchet?!](https://adventofcode.com/2023/day/1) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day01.kt) |
+| Day | Title                                                 | Part 1 | Part 2 | Code                                                                                                                                                      |
+|-----|-------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 01  | [Trebuchet?!](https://adventofcode.com/2023/day/1)    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day01.kt) |
+| 02  | [Cube Conundrum](https://adventofcode.com/2023/day/2) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day02.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day02.kt) |
 
 
 <details>
