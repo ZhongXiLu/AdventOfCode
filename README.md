@@ -6,6 +6,7 @@
 |-----|-------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 01  | [Trebuchet?!](https://adventofcode.com/2023/day/1)    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day01.kt) |
 | 02  | [Cube Conundrum](https://adventofcode.com/2023/day/2) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day02.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day02.kt) |
+| 03  | [Gear Ratios](https://adventofcode.com/2023/day/3)    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day03.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day03.kt) |
 
 
 <details>
