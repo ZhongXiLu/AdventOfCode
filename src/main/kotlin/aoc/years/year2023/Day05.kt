@@ -2,6 +2,7 @@ package aoc.years.year2023
 
 import aoc.Day
 import java.math.BigInteger
+import kotlin.math.min
 
 @Year2023
 class Day05 : Day() {
@@ -19,22 +20,20 @@ class Day05 : Day() {
         val humidityToLocation = input.toSeedMaps(169, 209)
 
         return seeds.map { seed ->
-            var mappedSeed = seed
-            mappedSeed = mapSeed(seedToSoil, mappedSeed)
-            mappedSeed = mapSeed(soilToFertilizer, mappedSeed)
-            mappedSeed = mapSeed(fertilizerToWater, mappedSeed)
-            mappedSeed = mapSeed(waterToLight, mappedSeed)
-            mappedSeed = mapSeed(lightToTemperature, mappedSeed)
-            mappedSeed = mapSeed(temperatureToHumidity, mappedSeed)
-            mappedSeed = mapSeed(humidityToLocation, mappedSeed)
-            return@map mappedSeed
+            return@map seed.map(seedToSoil)
+                .map(soilToFertilizer)
+                .map(fertilizerToWater)
+                .map(waterToLight)
+                .map(lightToTemperature)
+                .map(temperatureToHumidity)
+                .map(humidityToLocation)
         }.min()
     }
 
     override fun solvePart2(input: List<String>): Any {
         val seeds = input.first().substringAfter(": ").split(" ")
-                .chunked(2)
-                .map { BigIntRange(it.component1().toBigInteger(), it.component2().toBigInteger()) }
+            .chunked(2)
+            .map { BigIntRange(it.component1().toBigInteger(), it.component2().toBigInteger()) }
 
         // ain't nobody got time to properly parse the input
         val seedToSoil = input.toSeedMaps(3, 19)
@@ -44,58 +43,38 @@ class Day05 : Day() {
         val lightToTemperature = input.toSeedMaps(101, 120)
         val temperatureToHumidity = input.toSeedMaps(123, 166)
         val humidityToLocation = input.toSeedMaps(169, 209)
-        // test ranges
-//        val seedToSoil = input.toSeedRanges(3, 4)
-//        val soilToFertilizer = input.toSeedRanges(7, 9)
-//        val fertilizerToWater = input.toSeedRanges(12, 15)
-//        val waterToLight = input.toSeedRanges(18, 19)
-//        val lightToTemperature = input.toSeedRanges(22, 24)
-//        val temperatureToHumidity = input.toSeedRanges(27, 28)
-//        val humidityToLocation = input.toSeedRanges(31, 32)
 
-        return seeds.map { seed ->
-            val mappedSeed = seed
-            val lowestLocations = mutableSetOf<BigInteger>()
-            mapSeed(seedToSoil, mappedSeed, lowestLocations)
-            mapSeed(soilToFertilizer, mappedSeed, lowestLocations)
-            mapSeed(fertilizerToWater, mappedSeed, lowestLocations)
-            mapSeed(waterToLight, mappedSeed, lowestLocations)
-            mapSeed(lightToTemperature, mappedSeed, lowestLocations)
-            mapSeed(temperatureToHumidity, mappedSeed, lowestLocations)
-            mapSeed(humidityToLocation, mappedSeed, lowestLocations)
-            return@map lowestLocations.min()
-        }.min()
-    }
+        var minLocation = seeds.first().from
 
-    private fun mapSeed(seedMaps: List<SeedMap>, seed: BigInteger): BigInteger {
-        for (seedMap in seedMaps) {
-            val mappedSeed = seedMap.mapSeed(seed)
-            if (mappedSeed != seed) {   // found a mapping of the seed
-                return mappedSeed
+        for (seed in seeds) {
+            var curSeed = seed.from
+
+            while (curSeed < seed.from + seed.range) {
+                val mappedSeed = curSeed.map(seedToSoil)
+                    .map(soilToFertilizer)
+                    .map(fertilizerToWater)
+                    .map(waterToLight)
+                    .map(lightToTemperature)
+                    .map(temperatureToHumidity)
+                    .map(humidityToLocation)
+                minLocation = minOf(minLocation, mappedSeed)
+                curSeed++
             }
         }
-        return seed
+
+        return minLocation
     }
 
-    private fun mapSeed(seedMaps: List<SeedMap>, seed: BigIntRange, lowestLocations: MutableSet<BigInteger>) {
-        for (seedMap in seedMaps) {
-            val newLowestLocations = mutableSetOf<BigInteger>()
-            lowestLocations.forEach {
-                val mappedSeed = seedMap.mapSeed(it)
-                if (mappedSeed != it) {   // found a mapping of the seed
-                    newLowestLocations.add(mappedSeed)
-                }
-            }
-            newLowestLocations.forEach { lowestLocations.add(it) }
+}
 
-            val mappedSeed = seedMap.mapSeed(seed)
-            if (mappedSeed != seed.from) {
-                lowestLocations.add(mappedSeed)
-            }
+private fun BigInteger.map(seedMaps: List<SeedMap>): BigInteger {
+    for (seedMap in seedMaps) {
+        val mappedSeed = seedMap.mapSeed(this)
+        if (mappedSeed != this) {   // found a mapping of the seed
+            return mappedSeed
         }
-        lowestLocations.add(seed.from)
     }
-
+    return this
 }
 
 private fun List<String>.toSeedMaps(from: Int, to: Int): List<SeedMap> {
@@ -107,21 +86,11 @@ private fun List<String>.toSeedMaps(from: Int, to: Int): List<SeedMap> {
 
 private data class SeedMap(val destinationRange: BigInteger, val sourceRange: BigInteger, val rangeLength: BigInteger) {
     fun mapSeed(seed: BigInteger): BigInteger {
-        if (seed >= sourceRange && seed <= sourceRange + rangeLength) {
+        if (seed >= sourceRange && seed < sourceRange + rangeLength) {
             return destinationRange + (seed - sourceRange)
         } else {
             return seed
         }
-    }
-
-    fun mapSeed(seed: BigIntRange): BigInteger {
-        if (((sourceRange + rangeLength) <= seed.from) || ((seed.from + seed.range) <= sourceRange)) {
-            return seed.from // no overlap
-        }
-        val overlapStart = maxOf(seed.from, sourceRange)
-        val overlapEnd = minOf(seed.from + seed.range, sourceRange + rangeLength)
-        val delta = if (seed.from < sourceRange) rangeLength - (overlapEnd - overlapStart) else overlapEnd - overlapStart
-        return destinationRange + delta
     }
 }
 

@@ -2,12 +2,13 @@
 
 ### 2023
 
-| Day | Title                                                 | Part 1 | Part 2 | Code                                                                                                                                                      |
-|-----|-------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 01  | [Trebuchet?!](https://adventofcode.com/2023/day/1)    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day01.kt) |
-| 02  | [Cube Conundrum](https://adventofcode.com/2023/day/2) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day02.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day02.kt) |
-| 03  | [Gear Ratios](https://adventofcode.com/2023/day/3)    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day03.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day03.kt) |
-| 04  | [Scratchcards](https://adventofcode.com/2023/day/4)   |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day04.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day04.kt) |
+| Day | Title                                                                  | Part 1 | Part 2 | Code                                                                                                                                                      |
+|-----|------------------------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 01  | [Trebuchet?!](https://adventofcode.com/2023/day/1)                     |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day01.kt) |
+| 02  | [Cube Conundrum](https://adventofcode.com/2023/day/2)                  |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day02.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day02.kt) |
+| 03  | [Gear Ratios](https://adventofcode.com/2023/day/3)                     |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day03.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day03.kt) |
+| 04  | [Scratchcards](https://adventofcode.com/2023/day/4)                    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day04.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day04.kt) |
+| 05  | [If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day05.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day05.kt) |
 
 
 <details>
