@@ -9,6 +9,8 @@
 | 03  | [Gear Ratios](https://adventofcode.com/2023/day/3)                     |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day03.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day03.kt) |
 | 04  | [Scratchcards](https://adventofcode.com/2023/day/4)                    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day04.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day04.kt) |
 | 05  | [If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day05.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day05.kt) |
+| 06  | [Wait For It](https://adventofcode.com/2023/day/6)                     |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day06.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day06.kt) |
+| 07  | [Camel Cards](https://adventofcode.com/2023/day/7)                     |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day07.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day07.kt) |
 
 
 <details>
