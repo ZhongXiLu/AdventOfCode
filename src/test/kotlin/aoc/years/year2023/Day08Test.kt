@@ -9,7 +9,7 @@ internal class Day08Test {
     fun testPart8() {
         val day = Day08()
         assertEquals(
-                6, day.solvePart2(
+                6L, day.solvePart2(
                 listOf(
                         "LR",
                         "",
