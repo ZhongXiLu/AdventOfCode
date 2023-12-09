@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 internal class Day08Test {
 
     @Test
-    fun testPart8() {
+    fun testPart2() {
         val day = Day08()
         assertEquals(
                 6L, day.solvePart2(
