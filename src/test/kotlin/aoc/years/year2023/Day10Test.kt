@@ -41,4 +41,24 @@ internal class Day10Test {
         )
     }
 
+    @Test
+    fun testPart2() {
+        val day = Day10()
+        assertEquals(
+            4, day.solvePart2(
+                listOf(
+                    "...........",
+                    ".S-------7.",
+                    ".|F-----7|.",
+                    ".||.....||.",
+                    ".||.....||.",
+                    ".|L-7.F-J|.",
+                    ".|..|.|..|.",
+                    ".L--J.L--J.",
+                    "...........",
+                )
+            )
+        )
+    }
+
 }

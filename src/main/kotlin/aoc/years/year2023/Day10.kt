@@ -10,20 +10,25 @@ class Day10 : Day() {
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return 0
+        return Map.of(input).getNrOfEnclosedTiles()
     }
 
 }
 
-private data class Map(val map: List<CharArray>) {
+private data class Map(var map: List<CharArray>) {
     companion object {
         fun of(input: List<String>): Map {
             return Map(input.map { it.toCharArray() })
         }
     }
 
-    // Dijkstra
     fun getFarthestDistanceFromStart(): Int {
+        val visited = traverseLoop()
+        return visited.maxOf { row -> row.maxOf { it.second } }
+    }
+
+    // Dijkstra
+    private fun traverseLoop(): List<MutableList<Pair<Boolean, Int>>> {
         val visited = this.map.indices
             .map {
                 this.map.first().indices
@@ -55,7 +60,7 @@ private data class Map(val map: List<CharArray>) {
             }
         }
 
-        return visited.maxOf { row -> row.maxOf { it.second } }
+        return visited
     }
 
     private fun getStartingPosition(): Pair<Int, Int> {
@@ -67,6 +72,26 @@ private data class Map(val map: List<CharArray>) {
             }
         }
         return Pair(-1, -1)
+    }
+
+    fun getNrOfEnclosedTiles(): Int {
+        val visited = traverseLoop()
+        return getNonLoopTiles(visited).count { this.isEnclosed(it, visited) }
+    }
+
+    private fun getNonLoopTiles(visited: List<MutableList<Pair<Boolean, Int>>>): List<Pair<Int, Int>> {
+        return visited.mapIndexed { x, row ->
+            row.mapIndexed { y, tile -> if (tile.first) null else Pair(x, y) }
+        }.flatten().filterNotNull()
+    }
+
+    private fun isEnclosed(pos: Pair<Int, Int>, visited: List<MutableList<Pair<Boolean, Int>>>): Boolean {
+        val leftPipes = (0..pos.second).count { visited[pos.first][it].first && isVerticalPipe(this.map[pos.first][it]) }
+        return if (leftPipes % 2 != 0) true else false
+    }
+
+    private fun isVerticalPipe(pipe: Char): Boolean {
+        return pipe == '|' || pipe == 'L' || pipe == 'J' || pipe == 'S'
     }
 
 }

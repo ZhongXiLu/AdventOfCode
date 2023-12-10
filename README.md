@@ -13,6 +13,7 @@
 | 07  | [Camel Cards](https://adventofcode.com/2023/day/7)                     |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day07.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day07.kt) |
 | 08  | [Haunted Wasteland](https://adventofcode.com/2023/day/8)               |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/Day08.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day08.kt) |
 | 09  | [Mirage Maintenance](https://adventofcode.com/2023/day/9)              |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day09.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day09.kt) |
+| 10  | [Pipe Maze](https://adventofcode.com/2023/day/10)                      |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/Day10.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day10.kt) |
 
 
 <details>
