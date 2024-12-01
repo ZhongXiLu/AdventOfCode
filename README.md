@@ -1,6 +1,13 @@
 # Advent Of Code ![Kotlin CI](https://github.com/ZhongXiLu/AdventOfCode/workflows/Kotlin%20CI/badge.svg)
 
-### 2023
+### 2024
+
+| Day | Title                                                     | Part 1 | Part 2 | Code                                                                                                                                                      |
+|-----|-----------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 01  | [Historian Hysteria](https://adventofcode.com/2024/day/1) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day01.kt) |
+
+<details>
+  <summary><h3>2023</h3></summary>
 
 | Day | Title                                                                  | Part 1 | Part 2 | Code                                                                                                                                                      |
 |-----|------------------------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -15,6 +22,7 @@
 | 09  | [Mirage Maintenance](https://adventofcode.com/2023/day/9)              |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day09.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day09.kt) |
 | 10  | [Pipe Maze](https://adventofcode.com/2023/day/10)                      |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/Day10.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2023/Day10.kt) |
 
+</details>
 
 <details>
   <summary><h3>2022</h3></summary>
@@ -46,6 +54,7 @@
 | 23  | [Unstable Diffusion](https://adventofcode.com/2022/day/23)       |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day23.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2022/Day23.kt) |
 | 24  | [Blizzard Basin](https://adventofcode.com/2022/day/24)           |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day24.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2022/Day24.kt) |
 | 25  | [Full of Hot Air](https://adventofcode.com/2022/day/25)          |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day25.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2022/Day25.kt) |
+
 </details>
 
 <details>
@@ -64,6 +73,7 @@
 | 09  | [Smoke Basin](https://adventofcode.com/2021/day/9)             |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day09.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day09.kt) |
 | 10  | [Syntax Scoring](https://adventofcode.com/2021/day/10)         |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day10.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day10.kt) |
 | 11  | [Dumbo Octopus](https://adventofcode.com/2021/day/11)          |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day11.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2021/Day11.kt) |
+
 </details>
 
 *with some hints from Reddit 😇
@@ -89,8 +99,9 @@
 
 2. Store the input in `resources/year<year>/Day<day>.txt`
 
-3. Then you can run the `DayRunner` class with the year and day as arguments (or without any arguments to run every day):
-    
+3. Then you can run the `DayRunner` class with the year and day as arguments (or without any arguments to run every
+   day):
+
    ```kotlin
     aoc.DayRunnerKt 2022 25
     ```
