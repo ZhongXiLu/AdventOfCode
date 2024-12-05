@@ -5,6 +5,10 @@
 | Day | Title                                                     | Part 1 | Part 2 | Code                                                                                                                                                      |
 |-----|-----------------------------------------------------------|:------:|:------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 01  | [Historian Hysteria](https://adventofcode.com/2024/day/1) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day01.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day01.kt) |
+| 02  | [Red-Nosed Reports](https://adventofcode.com/2024/day/2)  |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day02.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day02.kt) |
+| 03  | [Mull It Over](https://adventofcode.com/2024/day/3)       |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day03.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day03.kt) |
+| 04  | [Ceres Search](https://adventofcode.com/2024/day/4)       |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day04.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day04.kt) |
+| 05  | [Print Queue](https://adventofcode.com/2024/day/5)        |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day05.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day05.kt) |
 
 <details>
   <summary><h3>2023</h3></summary>
