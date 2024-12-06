@@ -12,7 +12,8 @@ class Day06 : Day() {
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return input
+        val map = GuardMap.of(input)
+        return map.traverseWithObstructionPlacement(map.getStartingPosition())
     }
 
 }
@@ -55,6 +56,34 @@ private class GuardMap(val map: MutableList<MutableList<Char>>) {
         }
     }
 
+    fun traverseWithObstructionPlacement(startingPosition: Pair<Int, Int>): Int {
+        var count = 0
+
+        val (x, y) = startingPosition
+        val (newX, newY) = getDirection(map[x][y])
+
+        if (x + newX !in map.indices || y + newY !in map[x].indices) {
+            return count
+        }
+
+        if (map[x + newX][y + newY] == '#') {
+            map[x][y] = rotate(map[x][y])
+            count += traverseWithObstructionPlacement(Pair(x, y))
+
+        } else {
+            val mapCopy = map.map { it.toMutableList() }.toMutableList()
+            mapCopy[x + newX][y + newY] = '#'
+            val initialDirection = mapCopy[x][y]
+            mapCopy[x][y] = rotate(map[x][y])
+            if (GuardMap(mapCopy).isLoopFrom(Pair(x, y), Pair(x, y), initialDirection, 0)) count++
+
+            map[x + newX][y + newY] = map[x][y]
+            count += traverseWithObstructionPlacement(Pair(x + newX, y + newY))
+        }
+
+        return count
+    }
+
     private fun getDirection(direction: Char): Pair<Int, Int> {
         return when (direction) {
             '^' -> Pair(-1, 0)
@@ -72,6 +101,31 @@ private class GuardMap(val map: MutableList<MutableList<Char>>) {
             '<' -> '^'
             '>' -> 'v'
             else -> throw IllegalStateException("Invalid direction: $direction")
+        }
+    }
+
+    private fun isLoopFrom(currentPosition: Pair<Int, Int>, initialPosition: Pair<Int, Int>, initialDirection: Char, hardStop: Int): Boolean {
+        // Hard stop to avoid StackOverFlowError; don't ask me how I got this number...
+        if (hardStop == 4620) {
+            return false
+        }
+
+        val (x, y) = currentPosition
+
+        val (newX, newY) = getDirection(map[x][y])
+        if (x + newX !in map.indices || y + newY !in map[x].indices) {
+            return false
+
+        } else if (x == initialPosition.first && y == initialPosition.second && map[x][y] == initialDirection) {
+            return true
+
+        } else if (map[x + newX][y + newY] == '#') {
+            map[x][y] = rotate(map[x][y])
+            return isLoopFrom(Pair(x, y), initialPosition, initialDirection, hardStop + 1)
+
+        } else {
+            map[x + newX][y + newY] = map[x][y]
+            return isLoopFrom(Pair(x + newX, y + newY), initialPosition, initialDirection, hardStop + 1)
         }
     }
 
