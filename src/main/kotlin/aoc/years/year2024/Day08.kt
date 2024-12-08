@@ -11,17 +11,18 @@ import kotlin.collections.listOf
 import kotlin.collections.map
 import kotlin.collections.mutableListOf
 import kotlin.collections.mutableSetOf
+import kotlin.collections.plus
 import kotlin.math.abs
 
 @Year2024
 class Day08 : Day() {
 
     override fun solvePart1(input: List<String>): Any {
-        return Map.of(input).getAntinodes().size
+        return Map.of(input).getAntinodes(false).size
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return Map.of(input).getAntinodesWithResonance().size
+        return Map.of(input).getAntinodes(true).size
     }
 
 }
@@ -34,13 +35,17 @@ private class Map(val map: List<List<String>>) {
         }
     }
 
-    fun getAntinodes(): MutableSet<Pair<Int, Int>> {
+    fun getAntinodes(withResonance: Boolean): MutableSet<Pair<Int, Int>> {
+        return getAntinodesWithResonance(if (withResonance) ::findAntinodesWithResonance else ::findAntinodes)
+    }
+
+    fun getAntinodesWithResonance(find: (Pair<Int, Int>, String) -> List<Pair<Int, Int>>): MutableSet<Pair<Int, Int>> {
         val antinodes = mutableSetOf<Pair<Int, Int>>()
 
         for (x in map.indices) {
             for (y in map[x].indices) {
                 if (map[x][y] != ".") {
-                    antinodes.addAll(findAntinodes(Pair(x, y), map[x][y]))
+                    antinodes.addAll(find(Pair(x, y), map[x][y]))
                 }
             }
         }
@@ -63,11 +68,7 @@ private class Map(val map: List<List<String>>) {
 
         for (x in map.indices) {
             for (y in map[x].indices) {
-                if (x == original.first && y == original.second) {
-                    continue
-                }
-
-                if (map[x][y] == frequency) {
+                if ((x != original.first || y != original.second) && map[x][y] == frequency) {
                     antennas.add(Pair(x, y))
                 }
             }
@@ -90,25 +91,9 @@ private class Map(val map: List<List<String>>) {
         return Optional.empty()
     }
 
-    fun getAntinodesWithResonance(): MutableSet<Pair<Int, Int>> {
-        val antinodes = mutableSetOf<Pair<Int, Int>>()
-
-        for (x in map.indices) {
-            for (y in map[x].indices) {
-                if (map[x][y] != ".") {
-                    antinodes.addAll(findAntinodesWithResonance(Pair(x, y), map[x][y]))
-                }
-            }
-        }
-
-        return antinodes
-    }
-
     private fun findAntinodesWithResonance(antenna: Pair<Int, Int>, frequency: String): List<Pair<Int, Int>> {
         return findAntennas(antenna, frequency)
-            .map {
-                listOf(it.getAntiNodesWithResonance(antenna), antenna.getAntiNodesWithResonance(it)).flatten()
-            }
+            .map { it.getAntiNodesWithResonance(antenna) }
             .flatten()
     }
 
