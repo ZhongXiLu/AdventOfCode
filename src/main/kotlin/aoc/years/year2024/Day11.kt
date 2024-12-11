@@ -7,53 +7,50 @@ import java.math.BigInteger
 class Day11 : Day() {
 
     override fun solvePart1(input: List<String>): Any {
-        val memoization = HashMap<BigInteger, BigInteger>()
+        val memoization = HashMap<String, BigInteger>()
         return getStones(input).sumOf { it.getNrOfStonesAfter(25, memoization) }
     }
 
     override fun solvePart2(input: List<String>): Any {
-        // try recursive with memoization?
-        val memoization = HashMap<BigInteger, BigInteger>()
-        return getStones(input).sumOf { it.getNrOfStonesAfter(25, memoization) }
+        val memoization = HashMap<String, BigInteger>()
+        return getStones(input).sumOf { it.getNrOfStonesAfter(75, memoization) }
     }
 
     private fun getStones(input: List<String>) = input.first().split(" ").map { it.toBigInteger() }
 }
 
-private fun BigInteger.getNrOfStonesAfter(blinks: Int, memoization: MutableMap<BigInteger, BigInteger>): Int {
+private fun BigInteger.getNrOfStonesAfter(blinks: Int, memoization: MutableMap<String, BigInteger>): BigInteger {
     if (blinks == 0) {
-        return 1
+        return BigInteger.ONE
     }
 
+    val memoizationKey = "$this $blinks"
+    if (memoization.containsKey(memoizationKey)) {
+        return memoization[memoizationKey]!!
+    }
+
+    val nrOfStones: BigInteger = getNrOfStones(blinks, memoization)
+    memoization[memoizationKey] = nrOfStones
+
+    return nrOfStones
+}
+
+private fun BigInteger.getNrOfStones(blinks: Int, memoization: MutableMap<String, BigInteger>): BigInteger {
+    val nrOfStones: BigInteger
+
     if (this == BigInteger.ZERO) {
-        val nrOfStones = BigInteger.ONE.getNrOfStonesAfter(blinks - 1, memoization)
-        //
-        return nrOfStones
+        nrOfStones = BigInteger.ONE.getNrOfStonesAfter(blinks - 1, memoization)
     } else {
         val digit = this.toString()
         if (digit.length % 2 == 0) {
             val firstStone = digit.substring(0, digit.length / 2).toBigInteger()
             val secondStone = digit.substring(digit.length / 2).toBigInteger()
-            return firstStone.getNrOfStonesAfter(blinks - 1, memoization) + secondStone.getNrOfStonesAfter(blinks - 1, memoization)
+            nrOfStones = firstStone.getNrOfStonesAfter(blinks - 1, memoization)
+                .plus(secondStone.getNrOfStonesAfter(blinks - 1, memoization))
         } else {
-            return (this * BigInteger.valueOf(2024)).getNrOfStonesAfter(blinks - 1, memoization)
+            nrOfStones = (this * BigInteger.valueOf(2024)).getNrOfStonesAfter(blinks - 1, memoization)
         }
     }
-}
 
-private fun List<BigInteger>.blink(): List<BigInteger> {
-    return this.map {
-        val digit = it.toString()
-        if (it == BigInteger.ZERO) {
-            return@map listOf(BigInteger.ONE)
-        } else {
-            if (digit.length % 2 == 0) {
-                val firstStone = digit.substring(0, digit.length / 2).toBigInteger()
-                val secondStone = digit.substring(digit.length / 2).toBigInteger()
-                return@map listOf(firstStone, secondStone)
-            } else {
-                return@map listOf(it * BigInteger.valueOf(2024))
-            }
-        }
-    }.flatten()
+    return nrOfStones
 }
