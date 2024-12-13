@@ -13,6 +13,10 @@
 | 07  | [Bridge Repair](https://adventofcode.com/2024/day/7)         |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day07.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day07.kt) |
 | 08  | [Resonant Collinearity](https://adventofcode.com/2024/day/8) |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day08.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day08.kt) |
 | 09  | [Disk Fragmenter](https://adventofcode.com/2024/day/9)       |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day09.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day09.kt) |
+| 10  | [Hoof It](https://adventofcode.com/2024/day/10)              |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day10.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day10.kt) |
+| 11  | [Plutonian Pebbles](https://adventofcode.com/2024/day/11)    |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day11.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day11.kt) |
+| 12  | [Garden Groups](https://adventofcode.com/2024/day/12)        |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/Day12.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day12.kt) |
+| 13  | [Claw Contraption](https://adventofcode.com/2024/day/13)     |  🌟*   |   🌟   | [![Code](https://img.shields.io/badge/Day13.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day13.kt) |
 
 <details>
   <summary><h3>2023</h3></summary>
