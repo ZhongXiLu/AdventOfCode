@@ -6,15 +6,15 @@ import aoc.Day
 class Day15 : Day() {
 
     override fun solvePart1(input: List<String>): Any {
-        // 8,10,50
         return Warehouse.of(input.take(50))
             .move(getMoves(input.subList(50, input.size)))
             .getSumOfGpsCoordinates()
     }
 
     override fun solvePart2(input: List<String>): Any {
-
-        return 0
+        return Warehouse.ofWithExpansion(input.take(50))
+            .move(getMoves(input.subList(50, input.size)))
+            .getSumOfGpsCoordinates()
     }
 
     private fun getMoves(input: List<String>) = input.map { it.split("") }.flatten().filter(String::isNotBlank)
@@ -24,15 +24,29 @@ class Day15 : Day() {
 class Warehouse(private val warehouse: MutableList<MutableList<String>>) {
     companion object {
         fun of(input: List<String>): Warehouse {
-            val warehouse = input.take(50).map { it.split("").filter(String::isNotBlank).toMutableList() }.toMutableList()
+            val warehouse =
+                input.take(50).map { it.split("").filter(String::isNotBlank).toMutableList() }.toMutableList()
+            return Warehouse(warehouse)
+        }
+
+        fun ofWithExpansion(input: List<String>): Warehouse {
+            val warehouse = input.take(50).map {
+                it.split("").filter(String::isNotBlank).map { char ->
+                    when (char) {
+                        "#" -> listOf("#", "#")
+                        "O" -> listOf("[", "]")
+                        "." -> listOf(".", ".")
+                        "@" -> listOf("@", ".")
+                        else -> listOf()
+                    }
+                }.flatten().toMutableList()
+            }.toMutableList()
             return Warehouse(warehouse)
         }
     }
 
     fun move(moves: List<String>): Warehouse {
         moves.forEach { move ->
-            println(warehouse.joinToString("\n") { it.joinToString("") })
-
             val (x, y) = getRobotPosition()
             val (newX, newY) = getMove(move, x, y)
 
@@ -46,10 +60,19 @@ class Warehouse(private val warehouse: MutableList<MutableList<String>>) {
                     warehouse[newX][newY] = "@"
                 }
 
+            } else if (warehouse[newX][newY] == "[" || warehouse[newX][newY] == "]") {
+                if (moveExpandedBox(move, newX, newY)) {
+                    warehouse[x][y] = "."
+                    warehouse[newX][newY] = "@"
+                }
+
             } else {
                 warehouse[x][y] = "."
                 warehouse[newX][newY] = "@"
             }
+
+//            println(move)
+//            println(warehouse.joinToString("\n") { it.joinToString("") } + "\n")
         }
         return this
     }
@@ -124,10 +147,62 @@ class Warehouse(private val warehouse: MutableList<MutableList<String>>) {
         return false
     }
 
+    private fun moveExpandedBox(move: String, x: Int, y: Int): Boolean {
+        val connectedBoxes = getConnectedBoxes(move, x, y)
+
+        if (connectedBoxes.isNotEmpty()) {
+            if (canMoveBoxes(move, connectedBoxes)) {
+                moveBoxes(move, connectedBoxes)
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun getConnectedBoxes(move: String, x: Int, y: Int): List<Pair<Int, Int>> {
+        if (warehouse[x][y] == "]" || warehouse[x][y] == "[") {
+            val box = listOf(Pair(x, y), Pair(x, y.plus(if (warehouse[x][y] == "]") -1 else 1)))
+            val boxesToCheck = when (move) {
+                ">" -> listOf(Pair(x, y + 1))
+                "<" -> listOf(Pair(x, y - 1))
+                else -> box
+            }
+
+            val connectedBoxes = boxesToCheck.map {
+                val newMove = getMove(move, it.first, it.second)
+                return@map getConnectedBoxes(move, newMove.first, newMove.second)
+            }.flatten()
+            return box.plus(connectedBoxes).distinct()
+        }
+
+        return listOf()
+    }
+
+    private fun canMoveBoxes(move: String, boxes: List<Pair<Int, Int>>): Boolean {
+        return boxes.all { box ->
+            val newMove = getMove(move, box.first, box.second)
+            return@all warehouse[newMove.first][newMove.second] != "#"
+        }
+    }
+
+    private fun moveBoxes(move: String, boxes: List<Pair<Int, Int>>) {
+        boxes.map { box ->
+            val newMove = getMove(move, box.first, box.second)
+            val boxSymbol = warehouse[box.first][box.second]
+            warehouse[box.first][box.second] = "."
+            return@map Pair(newMove, boxSymbol)
+        }.forEach { (newMove, boxSymbol) ->
+            warehouse[newMove.first][newMove.second] = boxSymbol
+        }
+    }
+
     fun getSumOfGpsCoordinates(): Int {
         return warehouse.withIndex().sumOf { (x, row) ->
             row.withIndex().sumOf { (y, cell) ->
-                if (cell == "O") 100 * x + y else 0
+                when (cell) {
+                    "O", "[" -> 100 * x + y
+                    else -> 0
+                }
             }
         }
     }
