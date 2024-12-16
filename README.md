@@ -18,6 +18,8 @@
 | 12  | [Garden Groups](https://adventofcode.com/2024/day/12)        |   🌟   |  🌟*   | [![Code](https://img.shields.io/badge/Day12.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day12.kt) |
 | 13  | [Claw Contraption](https://adventofcode.com/2024/day/13)     |  🌟*   |   🌟   | [![Code](https://img.shields.io/badge/Day13.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day13.kt) |
 | 14  | [Restroom Redoubt](https://adventofcode.com/2024/day/14)     |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day14.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day14.kt) |
+| 15  | [Warehouse Woes](https://adventofcode.com/2024/day/15)       |   🌟   |   🌟   | [![Code](https://img.shields.io/badge/Day15.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day15.kt) |
+| 16  | [Reindeer Maze](https://adventofcode.com/2024/day/16)        |   🌟   |        | [![Code](https://img.shields.io/badge/Day16.kt-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)](src/main/kotlin/aoc/years/year2024/Day16.kt) |
 
 <details>
   <summary><h3>2023</h3></summary>
