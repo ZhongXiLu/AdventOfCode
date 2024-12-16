@@ -10,7 +10,7 @@ class Day16 : Day() {
     }
 
     override fun solvePart2(input: List<String>): Any {
-        return 1
+        return Maze.of(input).findShortestPathLength()
     }
 
 }
@@ -27,6 +27,26 @@ class Maze(private val maze: List<List<Char>>) {
         val visited = traverse()
         val (x, y) = getEnd()
         return visited[x][y].second
+    }
+
+    fun findShortestPathLength(): Int {
+        val visited = traverse()
+
+        val pathLength = visited.getPathLength(getEnd())
+        // print the maze
+        maze.forEachIndexed { x, row ->
+            row.forEachIndexed { y, c ->
+//                print(visited[x][y].toString() + "\t")
+                if (Pair(x, y) in pathLength) {
+                    print("O")
+                } else {
+                    print(c)
+                }
+            }
+            println()
+        }
+
+        return pathLength.size
     }
 
     private fun traverse(): List<MutableList<Triple<Boolean, Int, Char>>> {
@@ -95,4 +115,37 @@ class Maze(private val maze: List<List<Char>>) {
         throw IllegalStateException("Not found: $char")
     }
 
+    private fun List<MutableList<Triple<Boolean, Int, Char>>>.getPathLength(position: Pair<Int, Int>): List<Pair<Int, Int>> {
+        if (maze[position.first][position.second] == 'S') {
+            return listOf(position)
+        }
+
+        val (_, distance, direction) = this[position.first][position.second]
+        val paths = Triple(position.first, position.second, direction).getNeighbours()
+            .filter {
+                var distanceOfNeighbour = distance
+                if (this[it.first][it.second].third == it.third.flip() && this[it.first][it.second].third == direction) {
+                    distanceOfNeighbour -= 1
+                } else if (this[it.first][it.second].third == it.third.flip()) {
+                    distanceOfNeighbour += 999
+                } else {
+                    distanceOfNeighbour -= 1001
+                }
+                return@filter this[it.first][it.second].second == distanceOfNeighbour
+            }
+            .map { getPathLength(Pair(it.first, it.second)) }
+            .flatten()
+
+        return listOf(position).plus(paths).distinct()
+    }
+
+    private fun Char.flip(): Char {
+        return when (this) {
+            '^' -> 'v'
+            'v' -> '^'
+            '<' -> '>'
+            '>' -> '<'
+            else -> throw IllegalStateException("Not a valid direction: $this")
+        }
+    }
 }
